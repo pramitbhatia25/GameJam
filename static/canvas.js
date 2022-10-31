@@ -280,7 +280,7 @@ function animate() {
   else {
     p.velocity.x = 0;
     if (keys.right.pressed && won == false) {
-      score += 1;
+      score += 2;
       scrollOfset += 10;
       platforms.forEach((pl) => {
         pl.position.x -= 10;

@@ -1,6 +1,6 @@
 function newImage(name) {
   const new_image = new Image()
-  new_image.src = "/static/" + name + ".png";  
+  new_image.src = "/static/" + name + ".png";
   return new_image;
 }
 
@@ -43,7 +43,7 @@ const gravity = .5;
 canvas.contentEditable = true;
 
 class Player {
-  constructor({x, y, image}) {
+  constructor({ x, y, image }) {
     this.position = {
       x,
       y
@@ -74,7 +74,7 @@ class Player {
 }
 
 class Platform {
-  constructor({x, y, image}) {
+  constructor({ x, y, image }) {
     this.position = {
       x,
       y
@@ -90,7 +90,7 @@ class Platform {
 }
 
 class GenericObject {
-  constructor({x, y, image}) {
+  constructor({ x, y, image }) {
     this.position = {
       x,
       y
@@ -107,7 +107,7 @@ class GenericObject {
 
 
 class Obstacle {
-  constructor({x, y, image, orientation}) {
+  constructor({ x, y, image, orientation }) {
     this.orientation = orientation
     this.position = {
       x,
@@ -125,55 +125,55 @@ class Obstacle {
 
 
 function init() {
-  if(score > high_score) {
+  if (score > high_score) {
     high_score = score;
   }
   score = 0;
-  p = new Player({x:100, y:100, image:bat});
+  p = new Player({ x: 100, y: 100, image: bat });
 
   platforms = [
-    new Platform({ x:0, y: 400, image: plat }),
-    new Platform({ x:plat.width-155, y: 400, image: plat }),  
+    new Platform({ x: 0, y: 400, image: plat }),
+    new Platform({ x: plat.width - 155, y: 400, image: plat }),
     new Platform({ x: fire.width, y: 400, image: fire }),
-    new Platform({ x: fire.width*2 - 30, y: 400, image: fire }), 
-    new Platform({ x: fire.width*3 - 50, y: 400, image: fire }), 
-    new Platform({ x: fire.width*4 - 70, y: 400, image: fire }),
-    new Platform({ x: fire.width*5 - 90, y: 400, image: fire }),
-    new Platform({ x: fire.width*6 - 110, y: 400, image: plat })
+    new Platform({ x: fire.width * 2 - 30, y: 400, image: fire }),
+    new Platform({ x: fire.width * 3 - 50, y: 400, image: fire }),
+    new Platform({ x: fire.width * 4 - 70, y: 400, image: fire }),
+    new Platform({ x: fire.width * 5 - 90, y: 400, image: fire }),
+    new Platform({ x: fire.width * 6 - 110, y: 400, image: plat })
   ]
-    
+
   obstacles = []
   obstacle_x_options.forEach((x) => {
-    var random_o = obstacle_orientation_options[Math.floor(Math.random()*obstacle_orientation_options.length)];
-    if(random_o == "up") {
-      var random_m = obstacle_m_options[Math.floor(Math.random()*obstacle_m_options.length)];
+    var random_o = obstacle_orientation_options[Math.floor(Math.random() * obstacle_orientation_options.length)];
+    if (random_o == "up") {
+      var random_m = obstacle_m_options[Math.floor(Math.random() * obstacle_m_options.length)];
     }
     else {
-      var random_m = obstacle_mr_options[Math.floor(Math.random()*obstacle_mr_options.length)];
+      var random_m = obstacle_mr_options[Math.floor(Math.random() * obstacle_mr_options.length)];
     }
-  
-    obstacles.push(new Obstacle({ x:x, y: random_o == "up" ? 250 : -150, image: random_m, orientation: random_o}))
+
+    obstacles.push(new Obstacle({ x: x, y: random_o == "up" ? 250 : -150, image: random_m, orientation: random_o }))
   })
-    
+
 
   genericObjects = [
-    new GenericObject({x:-1, y:-1, image:background}), 
-    new GenericObject({x:-1, y:-1, image:hills})];  
+    new GenericObject({ x: -1, y: -1, image: background }),
+    new GenericObject({ x: -1, y: -1, image: hills })];
 
   scrollOfset = 0
 }
 
-let p = new Player({x:100, y:100, image:bat});
+let p = new Player({ x: 100, y: 100, image: bat });
 
 let platforms = [
-  new Platform({ x:0, y: 400, image: plat }),
-  new Platform({ x:plat.width-155, y: 400, image: plat }),  
+  new Platform({ x: 0, y: 400, image: plat }),
+  new Platform({ x: plat.width - 155, y: 400, image: plat }),
   new Platform({ x: fire.width, y: 400, image: fire }),
-  new Platform({ x: fire.width*2 - 30, y: 400, image: fire }), 
-  new Platform({ x: fire.width*3 - 50, y: 400, image: fire }), 
-  new Platform({ x: fire.width*4 - 70, y: 400, image: fire }),
-  new Platform({ x: fire.width*5 - 90, y: 400, image: fire }),
-  new Platform({ x: fire.width*6 - 110, y: 400, image: plat })
+  new Platform({ x: fire.width * 2 - 30, y: 400, image: fire }),
+  new Platform({ x: fire.width * 3 - 50, y: 400, image: fire }),
+  new Platform({ x: fire.width * 4 - 70, y: 400, image: fire }),
+  new Platform({ x: fire.width * 5 - 90, y: 400, image: fire }),
+  new Platform({ x: fire.width * 6 - 110, y: 400, image: plat })
 ]
 
 let obstacles = []
@@ -184,21 +184,22 @@ let obstacle_mr_options = [m1r, m2r, m3r, m4r, m5r]
 
 
 obstacle_x_options.forEach((x) => {
-  var random_o = obstacle_orientation_options[Math.floor(Math.random()*obstacle_orientation_options.length)];
-  if(random_o == "up") {
-    var random_m = obstacle_m_options[Math.floor(Math.random()*obstacle_m_options.length)];
+  var random_o = obstacle_orientation_options[Math.floor(Math.random() * obstacle_orientation_options.length)];
+  if (random_o == "up") {
+    var random_m = obstacle_m_options[Math.floor(Math.random() * obstacle_m_options.length)];
   }
   else {
-    var random_m = obstacle_mr_options[Math.floor(Math.random()*obstacle_mr_options.length)];
+    var random_m = obstacle_mr_options[Math.floor(Math.random() * obstacle_mr_options.length)];
   }
 
-  obstacles.push(new Obstacle({ x:x, y: random_o == "up" ? 250 : -150, image: random_m, orientation: random_o}))
+  obstacles.push(new Obstacle({ x: x, y: random_o == "up" ? 250 : -150, image: random_m, orientation: random_o }))
 })
 
 let genericObjects = [
-  new GenericObject({x:-1, y:-1, image:background}), 
-  new GenericObject({x:-1, y:-1, image:hills})];  
+  new GenericObject({ x: -1, y: -1, image: background }),
+  new GenericObject({ x: -1, y: -1, image: hills })];
 
+  let won = false
 let scrollOfset = 0
 
 let keys = {
@@ -226,7 +227,7 @@ function animate() {
   platforms.forEach((pl) => {
     pl.draw();
   })
-  
+
   p.update();
 
   ctx.fillStyle = "white";
@@ -240,39 +241,38 @@ function animate() {
   ctx.fillText("Rules:", 700, 240);
   ctx.fillText("Dont Touch The Monsters,", 700, 270);
   ctx.fillText("Dont Touch The Lava.", 700, 300);
-  
+
   platforms.forEach((pl) => {
-    if (p.position.y + p.height <= pl.position.y && p.position.y + p.height + p.velocity.y >= pl.position.y && p.position.x + p.width/2 >= pl.position.x && p.position.x  + p.width/2<= pl.position.x + pl.width) {
-      if(pl.image != plat){init()}
-      else {p.velocity.y = 0;}
+    if (p.position.y + p.height <= pl.position.y && p.position.y + p.height + p.velocity.y >= pl.position.y && p.position.x + p.width / 2 >= pl.position.x && p.position.x + p.width / 2 <= pl.position.x + pl.width) {
+      if (pl.image != plat) { p.velocity.y = 0; }
+      else { p.velocity.y = 0; }
     }
   })
 
   obstacles.forEach((o) => {
-    if(o.orientation == "up") {
-      if (p.position.y + p.height -20<= o.position.y && p.position.y + p.height + p.velocity.y >= o.position.y && p.position.x + p.width/2 >= o.position.x && p.position.x + p.width/2<= o.position.x + o.width) {
+    if (o.orientation == "up") {
+      if (p.position.y + p.height - 20 <= o.position.y && p.position.y + p.height + p.velocity.y >= o.position.y && p.position.x + p.width / 2 >= o.position.x && p.position.x + p.width / 2 <= o.position.x + o.width) {
         init();
       }
-      if(p.position.x + p.width - 20 > o.position.x && p.position.y > o.position.y && p.position.x < o.position.x + o.width) {
+      if (p.position.x + p.width - 20 > o.position.x && p.position.y > o.position.y && p.position.x < o.position.x + o.width) {
         init();
-      }  
+      }
     }
     else {
-      if (p.position.y+20<= o.position.y + o.height && p.position.x + p.width-20 >= o.position.x && p.position.x+20<= o.position.x + o.width) {
+      if (p.position.y + 20 <= o.position.y + o.height && p.position.x + p.width - 20 >= o.position.x && p.position.x + 20 <= o.position.x + o.width) {
         init();
       }
     }
   })
 
-  if (keys.right.pressed && p.position.x < 500) {
+  if (keys.right.pressed == true && p.position.x < 500 && won == false) {
     p.velocity.x = 5;
-  } else if ((keys.left.pressed && p.position.x > 300) || (keys.left.pressed && scrollOfset == 0 && p.position.x > 0)) {
-    console.log(p.position.x);
+  } else if ((keys.left.pressed == true && p.position.x > 300) || (keys.left.pressed && scrollOfset == 0 && p.position.x > 0) &&  won == false) {
     p.velocity.x = -5;
   }
   else {
     p.velocity.x = 0;
-    if (keys.right.pressed) {
+    if (keys.right.pressed && won == false) {
       score += 1;
       scrollOfset += 5;
       platforms.forEach((pl) => {
@@ -284,10 +284,9 @@ function animate() {
       obstacles.forEach((o) => {
         o.position.x -= 5;
       })
-        }
-    else if (keys.left.pressed && scrollOfset > 0) {
+    }
+    else if (keys.left.pressed && scrollOfset > 0 && won == false) {
       scrollOfset -= 5;
-      console.log(scrollOfset);
       platforms.forEach((pl) => {
         pl.position.x += 5;
       })
@@ -299,13 +298,33 @@ function animate() {
       })
     }
   }
-    if(scrollOfset > fire.width*5 + 90) {
-      console.log("WIN!")
-    }
 
-    if(p.position.y + p.height >= canvas.height){
-      init();
-    }
+  if (p.position.y + p.height >= canvas.height) {
+    init();
+  }
+
+  if (scrollOfset > 120 + fire.width*6) {
+    won = true
+    console.log("WIN!")
+    p.velocity.x = 0
+    p.velocity.y = 0
+    document.removeEventListener('keydown', ({keyCode}) => {
+      switch (keyCode) {
+        default:
+          keys.right.pressed = false;
+          keys.left.pressed = false;
+                break;
+      }    
+    });
+    document.removeEventListener('keyup', ({keyCode}) => {
+      switch (keyCode) {
+        default:
+          keys.right.pressed = false;
+          keys.left.pressed = false;
+                break;
+      }    
+    });
+  }
 }
 
 animate();
@@ -321,7 +340,7 @@ document.addEventListener('keydown', ({ keyCode }) => {
       keys.right.pressed = true;
       break
     case 87:
-      p.velocity.y = -10;
+      if(won == false) p.velocity.y = -10;
       break;
   }
   console.log(keys.right.pressed);
@@ -338,7 +357,7 @@ document.addEventListener('keyup', ({ keyCode }) => {
       keys.right.pressed = false;
       break
     case 87:
-      p.velocity.y = 0;
+      if(won == false) p.velocity.y = 0;
       break;
   }
 })

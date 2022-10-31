@@ -12,6 +12,8 @@ const background = newImage("background");
 
 const fire = newImage("fire");
 
+const water = newImage("water");
+
 const m1 = newImage("monsters/m1");
 const m2 = newImage("monsters/m2");
 const m3 = newImage("monsters/m3");
@@ -30,6 +32,9 @@ const dpipe = newImage("dpipe");
 const bat = new Image()
 bat.src = "/static/giphy.gif";
 
+const title2 = new Image()
+title2.src = "/static/title2.jpeg";
+console.log("T", title2)
 const canvas = document.querySelector('canvas')
 console.log(canvas);
 
@@ -132,16 +137,15 @@ function init() {
   p = new Player({ x: 100, y: 100, image: bat });
 
   platforms = [
-    new Platform({ x: 0, y: 400, image: plat }),
-    new Platform({ x: plat.width - 155, y: 400, image: plat }),
-    new Platform({ x: fire.width, y: 400, image: fire }),
+    new Platform({ x: 0, y: 400, image: water }),
+    new Platform({ x: water.width-5, y: 400, image: fire }),
     new Platform({ x: fire.width * 2 - 30, y: 400, image: fire }),
     new Platform({ x: fire.width * 3 - 50, y: 400, image: fire }),
     new Platform({ x: fire.width * 4 - 70, y: 400, image: fire }),
     new Platform({ x: fire.width * 5 - 90, y: 400, image: fire }),
-    new Platform({ x: fire.width * 6 - 110, y: 400, image: plat })
+    new Platform({ x: fire.width * 6 - 110, y: 400, image: water }),
   ]
-
+  
   obstacles = []
   obstacle_x_options.forEach((x) => {
     var random_o = obstacle_orientation_options[Math.floor(Math.random() * obstacle_orientation_options.length)];
@@ -158,7 +162,9 @@ function init() {
 
   genericObjects = [
     new GenericObject({ x: -1, y: -1, image: background }),
-    new GenericObject({ x: -1, y: -1, image: hills })];
+    new GenericObject({ x: -1, y: -1, image: hills }),
+    new GenericObject({ x: 500, y: 0, image: title2 })
+  ];
 
   scrollOfset = 0
 }
@@ -166,14 +172,13 @@ function init() {
 let p = new Player({ x: 100, y: 100, image: bat });
 
 let platforms = [
-  new Platform({ x: 0, y: 400, image: plat }),
-  new Platform({ x: plat.width - 155, y: 400, image: plat }),
-  new Platform({ x: fire.width, y: 400, image: fire }),
+  new Platform({ x: 0, y: 400, image: water }),
+  new Platform({ x: water.width-5, y: 400, image: fire }),
   new Platform({ x: fire.width * 2 - 30, y: 400, image: fire }),
   new Platform({ x: fire.width * 3 - 50, y: 400, image: fire }),
   new Platform({ x: fire.width * 4 - 70, y: 400, image: fire }),
   new Platform({ x: fire.width * 5 - 90, y: 400, image: fire }),
-  new Platform({ x: fire.width * 6 - 110, y: 400, image: plat })
+  new Platform({ x: fire.width * 6 - 110, y: 400, image: water }),
 ]
 
 let obstacles = []
@@ -197,7 +202,9 @@ obstacle_x_options.forEach((x) => {
 
 let genericObjects = [
   new GenericObject({ x: -1, y: -1, image: background }),
-  new GenericObject({ x: -1, y: -1, image: hills })];
+  new GenericObject({ x: -1, y: -1, image: hills }),
+  new GenericObject({ x: 700, y: 0, image: title2 })
+];
 
   let won = false
 let scrollOfset = 0
@@ -234,13 +241,13 @@ function animate() {
   ctx.font = '24px serif';
   ctx.fillText("Score: " + score, 50, 50);
   ctx.fillText("High Score: " + high_score, 50, 100);
-  ctx.fillText("Controls:", 700, 100);
-  ctx.fillText("W - Jump", 700, 130);
-  ctx.fillText("D - Move Right", 700, 160);
-  ctx.fillText("A - Move Left", 700, 190);
-  ctx.fillText("Rules:", 700, 240);
-  ctx.fillText("Dont Touch The Monsters,", 700, 270);
-  ctx.fillText("Dont Touch The Lava.", 700, 300);
+  // ctx.fillText("Controls:", 700, 100);
+  // ctx.fillText("W - Jump", 700, 130);
+  // ctx.fillText("D - Move Right", 700, 160);
+  // ctx.fillText("A - Move Left", 700, 190);
+  // ctx.fillText("Rules:", 700, 240);
+  // ctx.fillText("Dont Touch The Monsters,", 700, 270);
+  // ctx.fillText("Dont Touch The Lava.", 700, 300);
 
   platforms.forEach((pl) => {
     if (p.position.y + p.height <= pl.position.y && p.position.y + p.height + p.velocity.y >= pl.position.y && p.position.x + p.width / 2 >= pl.position.x && p.position.x + p.width / 2 <= pl.position.x + pl.width) {
@@ -274,27 +281,27 @@ function animate() {
     p.velocity.x = 0;
     if (keys.right.pressed && won == false) {
       score += 1;
-      scrollOfset += 5;
+      scrollOfset += 10;
       platforms.forEach((pl) => {
-        pl.position.x -= 5;
+        pl.position.x -= 10;
       })
       genericObjects.forEach((g) => {
         g.position.x -= 5;
       })
       obstacles.forEach((o) => {
-        o.position.x -= 5;
+        o.position.x -= 10;
       })
     }
     else if (keys.left.pressed && scrollOfset > 0 && won == false) {
-      scrollOfset -= 5;
+      scrollOfset -= 10;
       platforms.forEach((pl) => {
-        pl.position.x += 5;
+        pl.position.x += 10;
       })
       genericObjects.forEach((g) => {
         g.position.x += 5;
       })
       obstacles.forEach((o) => {
-        o.position.x += 5;
+        o.position.x += 10;
       })
     }
   }

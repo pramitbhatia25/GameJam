@@ -1,26 +1,34 @@
-const plat = new Image()
-plat.src = "/static/platform.png";
+function newImage(name) {
+  const new_image = new Image()
+  new_image.src = "/static/" + name + ".png";  
+  return new_image;
+}
 
-const hills = new Image()
-hills.src = "/static/hills.png";
+const plat = newImage("platform");
 
-const background = new Image()
-background.src = "/static/background.png";
+const hills = newImage("hills");
+
+const background = newImage("background");
+
+const fire = newImage("fire");
+
+const m1 = newImage("monsters/m1");
+const m2 = newImage("monsters/m2");
+const m3 = newImage("monsters/m3");
+const m4 = newImage("monsters/m4");
+const m5 = newImage("monsters/m5");
+const m1r = newImage("monsters/m1r");
+const m2r = newImage("monsters/m2r");
+const m3r = newImage("monsters/m3r");
+const m4r = newImage("monsters/m4r");
+const m5r = newImage("monsters/m5r");
+
+const pipe = newImage("pipe");
+
+const dpipe = newImage("dpipe");
 
 const bat = new Image()
 bat.src = "/static/giphy.gif";
-
-const fire = new Image()
-fire.src = "/static/fire.png";
-
-const title = new Image()
-title.src = "/static/title.jpeg";
-
-const pipe = new Image()
-pipe.src = "/static/pipe.png";
-
-const dpipe = new Image()
-dpipe.src = "/static/dpipe.png";
 
 const canvas = document.querySelector('canvas')
 console.log(canvas);
@@ -130,43 +138,32 @@ function init() {
     new Platform({ x: fire.width*2 - 30, y: 400, image: fire }), 
     new Platform({ x: fire.width*3 - 50, y: 400, image: fire }), 
     new Platform({ x: fire.width*4 - 70, y: 400, image: fire }),
-    new Platform({ x: fire.width*5 - 90, y: 400, image: fire })
+    new Platform({ x: fire.width*5 - 90, y: 400, image: fire }),
+    new Platform({ x: fire.width*6 - 110, y: 400, image: plat })
   ]
     
-  // obstacles = [
-  //   new Obstacle({ x:900, y: -400 , image: dpipe, orientation:"down" }), 
-  //   new Obstacle({ x:1200, y: -400, image: dpipe, orientation:"down" }), 
-  //   new Obstacle({ x:1800, y: 300, image: pipe, orientation:"up"  }),  
-  //   new Obstacle({ x:2400, y: 300, image: pipe, orientation:"up"  }),  
-  //   new Obstacle({ x:3000, y: 300, image: pipe, orientation:"up"  }),  
-  //   new Obstacle({ x:3600, y: 300, image: pipe, orientation:"up"  }),  
-  //   new Obstacle({ x:4200, y: 300, image: pipe, orientation:"up"  }),  
-  //   new Obstacle({ x:4800, y: 300, image: pipe, orientation:"up"  })]  
   obstacles = []
-  for(let i = 0; i < 10; i++) {
-    var random_x = obstacle_x_options[Math.floor(Math.random()*obstacle_x_options.length)];
-    var random_orientation = obstacle_orientation_options[Math.floor(Math.random()*obstacle_orientation_options.length)];
-    if(random_orientation == "up") {
-      obstacles.push(new Obstacle({ x:random_x, y: 300, image: pipe, orientation:"up"  }))
+  obstacle_x_options.forEach((x) => {
+    var random_o = obstacle_orientation_options[Math.floor(Math.random()*obstacle_orientation_options.length)];
+    if(random_o == "up") {
+      var random_m = obstacle_m_options[Math.floor(Math.random()*obstacle_m_options.length)];
     }
-    else{
-      obstacles.push(new Obstacle({ x:random_x, y: -400, image: dpipe, orientation:"down"  }))
+    else {
+      var random_m = obstacle_mr_options[Math.floor(Math.random()*obstacle_mr_options.length)];
     }
-  }
   
+    obstacles.push(new Obstacle({ x:x, y: random_o == "up" ? 250 : -150, image: random_m, orientation: random_o}))
+  })
+    
 
   genericObjects = [
     new GenericObject({x:-1, y:-1, image:background}), 
-    new GenericObject({x:-1, y:-1, image:hills}), 
-    new GenericObject({x:100, y:10, image:title})];  
+    new GenericObject({x:-1, y:-1, image:hills})];  
 
   scrollOfset = 0
 }
 
 let p = new Player({x:100, y:100, image:bat});
-
-let obstacle_x_options = [1200, 1800, 2400, 3000, 3600, 4200, 4800, 5400]
-let obstacle_orientation_options = ["up", "down"]
 
 let platforms = [
   new Platform({ x:0, y: 400, image: plat }),
@@ -175,35 +172,32 @@ let platforms = [
   new Platform({ x: fire.width*2 - 30, y: 400, image: fire }), 
   new Platform({ x: fire.width*3 - 50, y: 400, image: fire }), 
   new Platform({ x: fire.width*4 - 70, y: 400, image: fire }),
-  new Platform({ x: fire.width*5 - 90, y: 400, image: fire })
+  new Platform({ x: fire.width*5 - 90, y: 400, image: fire }),
+  new Platform({ x: fire.width*6 - 110, y: 400, image: plat })
 ]
 
 let obstacles = []
-// let obstacles = [
-//   new Obstacle({ x:900, y: -400 , image: dpipe, orientation:"down" }), 
-//   new Obstacle({ x:1200, y: -400, image: dpipe, orientation:"down" }), 
-//   new Obstacle({ x:1800, y: 300, image: pipe, orientation:"up"  }),  
-//   new Obstacle({ x:2400, y: 300, image: pipe, orientation:"up"  }),  
-//   new Obstacle({ x:3000, y: 300, image: pipe, orientation:"up"  }),  
-//   new Obstacle({ x:3600, y: 300, image: pipe, orientation:"up"  }),  
-//   new Obstacle({ x:4200, y: 300, image: pipe, orientation:"up"  }),  
-//   new Obstacle({ x:4800, y: 300, image: pipe, orientation:"up"  })]  
+let obstacle_x_options = [1200, 1800, 2400, 3000, 3600, 4200, 4800, 5400]
+let obstacle_orientation_options = ["up", "down"]
+let obstacle_m_options = [m1, m2, m3, m4, m5]
+let obstacle_mr_options = [m1r, m2r, m3r, m4r, m5r]
 
-for(let i = 0; i < 10; i++) {
-  var random_x = obstacle_x_options[Math.floor(Math.random()*obstacle_x_options.length)];
-  var random_orientation = obstacle_orientation_options[Math.floor(Math.random()*obstacle_orientation_options.length)];
-  if(random_orientation == "up") {
-    obstacles.push(new Obstacle({ x:random_x, y: 300, image: pipe, orientation:"up"  }))
+
+obstacle_x_options.forEach((x) => {
+  var random_o = obstacle_orientation_options[Math.floor(Math.random()*obstacle_orientation_options.length)];
+  if(random_o == "up") {
+    var random_m = obstacle_m_options[Math.floor(Math.random()*obstacle_m_options.length)];
   }
-  else{
-    obstacles.push(new Obstacle({ x:random_x, y: -400, image: dpipe, orientation:"down"  }))
+  else {
+    var random_m = obstacle_mr_options[Math.floor(Math.random()*obstacle_mr_options.length)];
   }
-}
+
+  obstacles.push(new Obstacle({ x:x, y: random_o == "up" ? 250 : -150, image: random_m, orientation: random_o}))
+})
 
 let genericObjects = [
   new GenericObject({x:-1, y:-1, image:background}), 
-  new GenericObject({x:-1, y:-1, image:hills}), 
-  new GenericObject({x:100, y:10, image:title})];  
+  new GenericObject({x:-1, y:-1, image:hills})];  
 
 let scrollOfset = 0
 
@@ -237,12 +231,20 @@ function animate() {
 
   ctx.fillStyle = "white";
   ctx.font = '24px serif';
-  ctx.fillText("Score: " + score, 100, 100);
-  ctx.fillText("High Score: " + high_score, 300, 100);
+  ctx.fillText("Score: " + score, 50, 50);
+  ctx.fillText("High Score: " + high_score, 50, 100);
+  ctx.fillText("Controls:", 700, 100);
+  ctx.fillText("W - Jump", 700, 130);
+  ctx.fillText("D - Move Right", 700, 160);
+  ctx.fillText("A - Move Left", 700, 190);
+  ctx.fillText("Rules:", 700, 240);
+  ctx.fillText("Dont Touch The Monsters,", 700, 270);
+  ctx.fillText("Dont Touch The Lava.", 700, 300);
   
   platforms.forEach((pl) => {
     if (p.position.y + p.height <= pl.position.y && p.position.y + p.height + p.velocity.y >= pl.position.y && p.position.x + p.width/2 >= pl.position.x && p.position.x  + p.width/2<= pl.position.x + pl.width) {
-      p.velocity.y = 0;
+      if(pl.image != plat){init()}
+      else {p.velocity.y = 0;}
     }
   })
 

@@ -10,6 +10,7 @@ const background = newImage("background", "png");
 const fire = newImage("platforms/fire", "png");
 const purple = newImage("platforms/purple", "png");
 const water = newImage("platforms/water", "png");
+const grass = newImage("platforms/grass", "png");
 const m1 = newImage("monsters/m1", "png");
 const m2 = newImage("monsters/m2", "png");
 const m3 = newImage("monsters/m3", "png");
@@ -24,11 +25,11 @@ const bat = newImage("giphy", "gif");
 const rules_one = newImage("/game_rules/rules_one", "jpeg");
 
 const canvas = document.querySelector('canvas')
-const player_speed = 7;
+let player_speed = 7;
 
 let score = 0
 let high_score = 0
-let level = 0;
+let level = 1;
 
 canvas.width = 1024;
 canvas.height = 520;
@@ -117,8 +118,8 @@ class Obstacle {
 
 
 function init() {
-
-  level = 0;
+  player_speed = 7;
+  level = 1;
   if (score > high_score) {
     high_score = score;
   }
@@ -139,7 +140,13 @@ function init() {
     new Platform({ x: fire.width * 10 - 190, y: 400, image: purple }),
     new Platform({ x: fire.width * 11 - 210, y: 400, image: purple }),
     new Platform({ x: fire.width * 12 - 230, y: 400, image: water }),
-    ]
+    new Platform({ x: fire.width * 13 - 260, y: 400, image: grass }),
+    new Platform({ x: fire.width * 14 - 290, y: 400, image: grass }),
+    new Platform({ x: fire.width * 15 - 320, y: 400, image: grass }),
+    new Platform({ x: fire.width * 16 - 350, y: 400, image: grass }),
+    new Platform({ x: fire.width * 17 - 380, y: 400, image: grass }),
+    new Platform({ x: fire.width * 18 - 410, y: 400, image: water }),
+  ]
 
   obstacles = []
   obstacle_x_options.forEach((x) => {
@@ -182,6 +189,12 @@ let platforms = [
   new Platform({ x: fire.width * 10 - 190, y: 400, image: purple }),
   new Platform({ x: fire.width * 11 - 210, y: 400, image: purple }),
   new Platform({ x: fire.width * 12 - 230, y: 400, image: water }),
+  new Platform({ x: fire.width * 13 - 260, y: 400, image: grass }),
+  new Platform({ x: fire.width * 14 - 290, y: 400, image: grass }),
+  new Platform({ x: fire.width * 15 - 320, y: 400, image: grass }),
+  new Platform({ x: fire.width * 16 - 350, y: 400, image: grass }),
+  new Platform({ x: fire.width * 17 - 380, y: 400, image: grass }),
+  new Platform({ x: fire.width * 18 - 410, y: 400, image: water }),
 ]
 
 let obstacles = []
@@ -258,8 +271,10 @@ function animate() {
 
   platforms.forEach((pl) => {
     if (p.position.y + p.height <= pl.position.y && p.position.y + p.height + p.velocity.y >= pl.position.y && p.position.x + p.width / 2 >= pl.position.x && p.position.x + p.width / 2 <= pl.position.x + pl.width) {
-      if (pl.image != water) { p.velocity.y = 0; }
-      else { p.velocity.y = 0; }
+      if (pl.image == water) { p.velocity.y = 0; }
+      else if(pl.image == purple) { p.velocity.y = 0; }
+      else if(pl.image == grass) { p.velocity.y -= 20; }
+      else if(pl.image == fire) { init(); }
     }
   })
 
@@ -315,14 +330,20 @@ function animate() {
   }
 
   if (p.position.y + p.height >= canvas.height) {
-    init();
+    p.velocity.y = 0;
   }
 
-  // if (scrollOfset > 120 + fire.width*6) {
-  if (score == 875) {
-    level += 1
-    // won = true
-    console.log("WIN!")
+  if (score == 850) {
+    level = 2
+    player_speed = 12
+    console.log("Level 2")
+  }
+  if (score == 1330) {
+    level = 3
+    player_speed = 17
+    console.log("Level 3")
+  }
+  if (score == 1700) {
     // p.velocity.x = 0
     // p.velocity.y = 0
     // document.removeEventListener('keydown', ({keyCode}) => {

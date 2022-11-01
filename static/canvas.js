@@ -23,6 +23,7 @@ const m4r = newImage("monsters/m4r", "png");
 const m5r = newImage("monsters/m5r", "png");
 const bat = newImage("giphy", "gif");
 const rules_one = newImage("/game_rules/rules_one", "jpeg");
+const sprite = newImage("Cyborg_idle", "png");
 
 const canvas = document.querySelector('canvas')
 let player_speed = 7;
@@ -39,12 +40,13 @@ canvas.contentEditable = true;
 
 class Player {
   constructor({ x, y, image }) {
+    this.frame = 0
     this.position = {
       x,
       y
     }
-    this.width = image.width;
-    this.height = image.height;
+    this.width = image.width*2 / 6;
+    this.height = image.height*2;
     this.image = image;
 
     this.velocity = {
@@ -54,10 +56,12 @@ class Player {
   }
 
   draw() {
-    ctx.drawImage(this.image, this.position.x, this.position.y);
+    ctx.drawImage(this.image, 48 * this.frame, 0, 48, 48, this.position.x, this.position.y, this.width, this.height);
   }
 
   update() {
+    this.frame++;
+    if(this.frame > 4) this.frame = 0;
     this.position.y += this.velocity.y;
     this.position.x += this.velocity.x;
     if (this.position.y + this.height + this.velocity.y <= canvas.height) { this.velocity.y += gravity; }
@@ -124,7 +128,7 @@ function init() {
     high_score = score;
   }
   score = 0;
-  p = new Player({ x: 100, y: 100, image: bat });
+  p = new Player({ x: 100, y: 100, image: sprite });
 
   platforms = [
     new Platform({ x: 0, y: 400, image: water }),
@@ -173,7 +177,7 @@ function init() {
   scrollOfset = 0
 }
 
-let p = new Player({ x: 100, y: 100, image: bat });
+let p = new Player({ x: 100, y: 100, image: sprite });
 
 let platforms = [
   new Platform({ x: 0, y: 400, image: water }),

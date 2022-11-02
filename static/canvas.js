@@ -4,7 +4,6 @@ function newImage(name, ext) {
   return new_image;
 }
 
-const plat = newImage("platform", "png");
 const hills = newImage("hills", "png");
 const background = newImage("background", "png");
 const fire = newImage("platforms/fire", "png");
@@ -24,6 +23,8 @@ const m5r = newImage("monsters/m5r", "png");
 const bat = newImage("giphy", "gif");
 const rules_one = newImage("/game_rules/rules_one", "jpeg");
 const sprite = newImage("Cyborg_idle", "png");
+const fly1 = newImage("frame-1", "png");
+const fly2 = newImage("frame-2", "png");
 
 const canvas = document.querySelector('canvas')
 let player_speed = 7;
@@ -45,9 +46,9 @@ class Player {
       x,
       y
     }
-    this.width = image.width*2 / 6;
-    this.height = image.height*2;
     this.image = image;
+    this.width = this.image.width;
+    this.height = this.image.height;
 
     this.velocity = {
       x: 0,
@@ -56,12 +57,17 @@ class Player {
   }
 
   draw() {
-    ctx.drawImage(this.image, 48 * this.frame, 0, 48, 48, this.position.x, this.position.y, this.width, this.height);
+    if(keys.top.pressed){
+      ctx.drawImage(fly1, this.position.x, this.position.y, 80, 60);
+    }
+    else {
+      ctx.drawImage(fly2, this.position.x, this.position.y,  80, 60);
+    }
   }
 
   update() {
-    this.frame++;
-    if(this.frame > 4) this.frame = 0;
+    this.frame += 1;
+    // if(this.frame > 4) this.frame = 0;
     this.position.y += this.velocity.y;
     this.position.x += this.velocity.x;
     if (this.position.y + this.height + this.velocity.y <= canvas.height) { this.velocity.y += gravity; }
@@ -233,6 +239,9 @@ let won = false
 let scrollOfset = 0
 
 let keys = {
+  top: {
+    pressed: false,
+  },
   right: {
     pressed: false,
   },
@@ -284,15 +293,14 @@ function animate() {
 
   obstacles.forEach((o) => {
     if (o.orientation == "up") {
-      if (p.position.y + p.height - 20 <= o.position.y && p.position.y + p.height + p.velocity.y >= o.position.y && p.position.x + p.width / 2 >= o.position.x && p.position.x + p.width / 2 <= o.position.x + o.width) {
-        init();
-      }
-      if (p.position.x + p.width - 20 > o.position.x && p.position.y > o.position.y && p.position.x < o.position.x + o.width) {
+      if (p.position.x + p.width -90 > o.position.x && p.position.y > o.position.y && p.position.x < o.position.x + o.width) {
+        console.log("2")
         init();
       }
     }
     else {
-      if (p.position.y + 20 <= o.position.y + o.height && p.position.x + p.width - 20 >= o.position.x && p.position.x + 20 <= o.position.x + o.width) {
+      if (p.position.y + 20 <= o.position.y + o.height && p.position.x + p.width - 100 >= o.position.x && p.position.x + 100 <= o.position.x + o.width) {
+        console.log("3")
         init();
       }
     }
@@ -382,6 +390,7 @@ document.addEventListener('keydown', ({ keyCode }) => {
       keys.right.pressed = true;
       break
     case 87:
+      keys.top.pressed = true;
       if (won == false) p.velocity.y = -10;
       break;
   }
@@ -399,7 +408,8 @@ document.addEventListener('keyup', ({ keyCode }) => {
       keys.right.pressed = false;
       break
     case 87:
+      keys.top.pressed = false;
       if (won == false) p.velocity.y = 0;
-      break;
+    break;
   }
 })

@@ -3,6 +3,7 @@ function newImage(name, ext) {
   new_image.src = "/static/" + name + "." + ext;
   return new_image;
 }
+const SPD = 7;
 
 const hills = newImage("hills", "png");
 const background = newImage("background", "png");
@@ -27,7 +28,7 @@ const fly1 = newImage("frame-1", "png");
 const fly2 = newImage("frame-2", "png");
 
 const canvas = document.querySelector('canvas')
-let player_speed = 12;
+let player_speed =SPD;
 
 let score = 0
 let high_score = 0
@@ -108,6 +109,34 @@ class GenericObject {
   }
 }
 
+class Enemy {
+  constructor({x, y}) {
+    this.position = {
+      x,
+      y
+    }
+    this.image = m1;
+    this.width = 50;
+    this.height = 50;
+    this.velocity = {
+      x: -1,
+      y:0
+    }
+  }
+
+  draw() {
+    ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
+  }
+
+  update() {
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
+    if (this.position.y + this.height + this.velocity.y <= canvas.height) { this.velocity.y += gravity; }
+    else { this.velocity.y = 0; }
+    this.draw();
+  }
+
+}
 
 class Obstacle {
   constructor({ x, y, image, orientation }) {
@@ -126,9 +155,13 @@ class Obstacle {
   }
 }
 
+function launchFire(position){
+  return;
+}
 
 function init() {
-  player_speed = 12;
+  enemies = []
+  player_speed = SPD;
   level = 1;
   if (score > high_score) {
     high_score = score;
@@ -151,16 +184,15 @@ function init() {
     new Platform({ x: fire.width * 11 - 210, y: 400, image: purple }),
     new Platform({ x: fire.width * 12 - 230, y: 400, image: water }),
     new Platform({ x: fire.width * 13 - 260, y: 400, image: grass }),
-    new Platform({ x: fire.width * 14 - 290, y: 400, image: grass }),
     new Platform({ x: fire.width * 15 - 320, y: 400, image: grass }),
     new Platform({ x: fire.width * 16 - 350, y: 400, image: grass }),
     new Platform({ x: fire.width * 17 - 380, y: 400, image: grass }),
     new Platform({ x: fire.width * 18 - 410, y: 400, image: water }),
-    new Platform({ x: fire.width * 13 - 260, y: 100, image: purple }),
-    new Platform({ x: fire.width * 14 - 290, y: 150, image: purple }),
+    new Platform({ x: fire.width * 13 - 260, y: 150, image: purple }),
+    new Platform({ x: fire.width * 14 - 271, y: 200, image: purple }),
     new Platform({ x: fire.width * 16 - 350, y: 200, image: purple }),
-    ]
-
+  ]
+  
   obstacles = []
   obstacle_x_options.forEach((x) => {
     var random_o = obstacle_orientation_options[Math.floor(Math.random() * obstacle_orientation_options.length)];
@@ -203,13 +235,12 @@ let platforms = [
   new Platform({ x: fire.width * 11 - 210, y: 400, image: purple }),
   new Platform({ x: fire.width * 12 - 230, y: 400, image: water }),
   new Platform({ x: fire.width * 13 - 260, y: 400, image: grass }),
-  new Platform({ x: fire.width * 14 - 290, y: 400, image: grass }),
   new Platform({ x: fire.width * 15 - 320, y: 400, image: grass }),
   new Platform({ x: fire.width * 16 - 350, y: 400, image: grass }),
   new Platform({ x: fire.width * 17 - 380, y: 400, image: grass }),
   new Platform({ x: fire.width * 18 - 410, y: 400, image: water }),
-  new Platform({ x: fire.width * 13 - 260, y: 100, image: purple }),
-  new Platform({ x: fire.width * 14 - 290, y: 150, image: purple }),
+  new Platform({ x: fire.width * 13 - 260, y: 150, image: purple }),
+  new Platform({ x: fire.width * 14 - 271, y: 200, image: purple }),
   new Platform({ x: fire.width * 16 - 350, y: 200, image: purple }),
 ]
 
@@ -238,8 +269,9 @@ let genericObjects = [
   new GenericObject({ x: 650, y: 0, image: rules_one }),
   new GenericObject({ x: 4500, y: 0, image: rules_one }),
   new GenericObject({ x: 8350, y: 0, image: rules_one })
-
 ];
+
+let enemies = [new Enemy({x:500, y:200}), new Enemy({x:700, y:200})];
 
 let won = false
 let scrollOfset = 0
@@ -275,6 +307,10 @@ function animate() {
 
   p.update();
 
+  enemies.forEach((e) => {
+    e.update();
+  })
+
   ctx.fillStyle = "white";
   ctx.font = '24px serif';
   ctx.fillText("Score: " + score, 50, 50);
@@ -295,6 +331,21 @@ function animate() {
       else if(pl.image == grass) { p.velocity.y -= 20; }
       else if(pl.image == fire) { init(); }
     }
+  })
+
+  enemies.forEach((e) => {
+    platforms.forEach((pl) => {
+      if (e.position.y + e.height <= pl.position.y && e.position.y + e.height + e.velocity.y >= pl.position.y && e.position.x + e.width / 2 >= pl.position.x && e.position.x + e.width / 2 <= pl.position.x + pl.width) {
+        e.velocity.y = 0;
+      }
+    })      
+  }) 
+
+  enemies.forEach((e) => {
+        if (p.position.x + p.width -120> e.position.x && p.position.y > e.position.y && p.position.y < e.position.y + e.height && p.position.x < e.position.x + e.width) {
+          console.log("2")
+          init();
+      }
   })
 
   obstacles.forEach((o) => {
@@ -331,6 +382,9 @@ function animate() {
       obstacles.forEach((o) => {
         o.position.x -= player_speed;
       })
+      enemies.forEach((e) => {
+        e.position.x -= player_speed;
+      })
     }
     else if (keys.left.pressed && scrollOfset > 0 && won == false) {
       score -= 1;
@@ -343,6 +397,9 @@ function animate() {
       })
       obstacles.forEach((o) => {
         o.position.x += player_speed;
+      })
+      enemies.forEach((e) => {
+        e.position.x += player_speed;
       })
     }
   }
@@ -360,26 +417,38 @@ function animate() {
     level = 3
     player_speed = 17
     console.log("Level 3")
+    document.addEventListener('keyup', ({ keyCode }) => {
+      switch (keyCode) {
+        case 32:
+          console.log("SpACE");
+          launchFire(p.position);
+        break;
+      }
+    })
+    for(let i = 13; i < 35; i+=2 )
+    {
+      enemies.push(new Enemy({x:i*200, y:100}))
+    }
   }
   if (score == 1700) {
-    // p.velocity.x = 0
-    // p.velocity.y = 0
-    // document.removeEventListener('keydown', ({keyCode}) => {
-    //   switch (keyCode) {
-    //     default:
-    //       keys.right.pressed = false;
-    //       keys.left.pressed = false;
-    //             break;
-    //   }    
-    // });
-    // document.removeEventListener('keyup', ({keyCode}) => {
-    //   switch (keyCode) {
-    //     default:
-    //       keys.right.pressed = false;
-    //       keys.left.pressed = false;
-    //             break;
-    //   }    
-    // });
+    p.velocity.x = 0
+    p.velocity.y = 0
+    document.removeEventListener('keydown', ({keyCode}) => {
+      switch (keyCode) {
+        default:
+          keys.right.pressed = false;
+          keys.left.pressed = false;
+                break;
+      }    
+    });
+    document.removeEventListener('keyup', ({keyCode}) => {
+      switch (keyCode) {
+        default:
+          keys.right.pressed = false;
+          keys.left.pressed = false;
+                break;
+      }    
+    });
   }
 }
 

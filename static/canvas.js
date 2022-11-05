@@ -3,7 +3,6 @@ function newImage(name, ext) {
   new_image.src = "/static/" + name + "." + ext;
   return new_image;
 }
-const SPD = 7;
 
 const hills = newImage("hills", "png");
 const background = newImage("background", "png");
@@ -23,35 +22,36 @@ const m4r = newImage("monsters/m4r", "png");
 const m5r = newImage("monsters/m5r", "png");
 const bat = newImage("giphy", "gif");
 const rules_one = newImage("/game_rules/rules_one", "jpeg");
-const sprite = newImage("Cyborg_idle", "png");
-const fly1 = newImage("frame-1", "png");
-const fly2 = newImage("frame-2", "png");
-const up = newImage("up", "png");
-const down = newImage("down", "png");
+const fly1 = newImage("players/frame-1", "png");
+const fly2 = newImage("players/frame-2", "png");
+const up = newImage("players/up", "png");
+const down = newImage("players/down", "png");
 
+const SPD = 7;
 const canvas = document.querySelector('canvas')
-let player_speed = SPD;
+canvas.width = 1024;
+canvas.height = 520;
+var ctx = canvas.getContext("2d");
 
+canvas.contentEditable = true;
+var gravity = 0.5;
+var enemy_gravity = 0.5;
+
+let player_speed = SPD;
 let score = 0
 let high_score = 0
 let level = 1;
 
-canvas.width = 1024;
-canvas.height = 520;
-var ctx = canvas.getContext("2d");
-var gravity = .5;
-canvas.contentEditable = true;
 
 class Player {
-  constructor({ x, y, image }) {
+  constructor({ x, y}) {
     this.frame = 0
     this.position = {
       x,
       y
     }
-    this.image = image;
-    this.width = this.image.width;
-    this.height = this.image.height;
+    this.width = 80;
+    this.height = 50;
 
     this.velocity = {
       x: 0,
@@ -140,7 +140,7 @@ class Enemy {
   update() {
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
-    if (this.position.y + this.height + this.velocity.y <= canvas.height) { this.velocity.y += gravity; }
+    if (this.position.y + this.height + this.velocity.y <= canvas.height) { this.velocity.y += enemy_gravity; }
     else { this.velocity.y = 0; }
     this.draw();
   }
@@ -165,21 +165,22 @@ class Obstacle {
 }
 
 function launchFire(position) {
-
   return;
 }
 
 function init() {
+  gravity = 0.5;
+  enemy_gravity = 0.5;
   keys.right.pressed = false;
   random_m = obstacle_m_options[Math.floor(Math.random() * obstacle_m_options.length)];
-  enemies = [new Enemy({ x: 500, y: 200, image: random_m }), new Enemy({ x: 700, y: 200, image: random_m })];
+  enemies = [];
   player_speed = SPD;
-  level = 2;
+  level = 1;
   if (score > high_score) {
     high_score = score;
   }
   score = 0;
-  p = new Player({ x: 100, y: 100, image: sprite });
+  p = new Player({ x: 100, y: 100});
 
   platforms = [
     new Platform({ x: 0, y: 400, image: water }),
@@ -230,7 +231,7 @@ function init() {
   scrollOfset = 0
 }
 
-let p = new Player({ x: 100, y: 100, image: sprite });
+let p = new Player({ x: 100, y: 100});
 
 let platforms = [
   new Platform({ x: 0, y: 400, image: water }),
@@ -240,9 +241,9 @@ let platforms = [
   new Platform({ x: fire.width * 4 - 70, y: 400, image: fire }),
   new Platform({ x: fire.width * 5 - 90, y: 400, image: fire }),
   new Platform({ x: fire.width * 6 - 110, y: 400, image: water }),
-  new Platform({ x: fire.width * 7 - 190, y: 400, image: purple }),
-  new Platform({ x: fire.width * 8 - 400, y: 400, image: purple }),
-  new Platform({ x: fire.width * 9 - 300, y: 400, image: purple }),
+  new Platform({ x: fire.width * 7 - 130, y: 400, image: purple }),
+  new Platform({ x: fire.width * 8 - 150, y: 400, image: purple }),
+  new Platform({ x: fire.width * 9 - 170, y: 400, image: purple }),
   new Platform({ x: fire.width * 10 - 190, y: 400, image: purple }),
   new Platform({ x: fire.width * 11 - 210, y: 400, image: purple }),
   new Platform({ x: fire.width * 12 - 230, y: 400, image: water }),
@@ -340,9 +341,8 @@ function animate() {
   var gs = [-0.2, -0.4, 0.2, 0.4];
 
   if (level == 2) {
-    // var random_g = gs[Math.floor(Math.random() * gs.length)];
-    // gravity = random_g;
-    // console.log(gravity);
+    var random_g = gs[Math.floor(Math.random() * gs.length)];
+    enemy_gravity = random_g;
     gravity = 0;
   }
 
@@ -350,7 +350,7 @@ function animate() {
     if (p.position.y + p.height <= pl.position.y && p.position.y + p.height + p.velocity.y >= pl.position.y && p.position.x + p.width / 2 >= pl.position.x && p.position.x + p.width / 2 <= pl.position.x + pl.width) {
       if (pl.image == water) { p.velocity.y = 0; }
       else if (pl.image == purple) { p.velocity.y = 0; }
-      else if (pl.image == grass) { p.velocity.y -= 20; }
+      else if (pl.image == grass) { p.velocity.y = 0; }
       else if (pl.image == fire) { init(); }
     }
   })
@@ -364,7 +364,7 @@ function animate() {
   })
 
   enemies.forEach((e) => {
-    if (p.position.x + p.width - 120 > e.position.x && p.position.y + p.height > e.position.y && p.position.y < e.position.y + e.height && p.position.x < e.position.x + e.width) {
+    if (p.position.x + p.width  > e.position.x && p.position.y + p.height > e.position.y && p.position.y < e.position.y + e.height && p.position.x < e.position.x + e.width) {
       init();
     }
   })
@@ -427,6 +427,13 @@ function animate() {
     p.position.y = 0;
   }
 
+  enemies.forEach((e) => {
+    if (e.position.y <= -1) {
+      enemy_gravity = 1;
+      e.position.y = 0;
+    }  
+  })
+
   if (p.position.y + p.height >= canvas.height) {
     if (won) {
       window.location.href = '/p';
@@ -437,14 +444,23 @@ function animate() {
   }
 
   if (score == 850) {
+    keys.right.pressed = false;
+    score += 1;
     level = 2;
-    gravity = 1;
-    player_speed = 4;
+    player_speed = 10;
     console.log("Level 2")
+    for (let i = 10; i < 65; i += 7) {
+      random_m = obstacle_m_options[Math.floor(Math.random() * obstacle_m_options.length)];
+      enemies.push(new Enemy({ x: i * 100, y: 5*i, image: random_m }))
+    }
   }
-  if (score == 1330) {
+
+  if (score == 1435) {
+    keys.right.pressed = false;
+    score += 1;
     level = 3;
     gravity = 0.5;
+    enemy_gravity = 0.5;
     player_speed = 10;
     console.log("Level 3")
     document.addEventListener('keyup', ({ keyCode }) => {
@@ -455,12 +471,13 @@ function animate() {
           break;
       }
     })
-    for (let i = 13; i < 35; i += 2) {
+    for (let i = 9; i < 35; i += 2) {
       random_m = obstacle_m_options[Math.floor(Math.random() * obstacle_m_options.length)];
-      enemies.push(new Enemy({ x: i * 200, y: 100, image: random_m }))
+      enemies.push(new Enemy({ x: i * 200, y: 0, image: random_m }))
     }
   }
-  if (score == 1900) {
+
+  if (score == 1950) {
     p.velocity.x = 0
     p.velocity.y = 5
     won = true;

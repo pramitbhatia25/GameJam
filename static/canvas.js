@@ -26,9 +26,11 @@ const rules_one = newImage("/game_rules/rules_one", "jpeg");
 const sprite = newImage("Cyborg_idle", "png");
 const fly1 = newImage("frame-1", "png");
 const fly2 = newImage("frame-2", "png");
+const up = newImage("up", "png");
+const down = newImage("down", "png");
 
 const canvas = document.querySelector('canvas')
-let player_speed =SPD;
+let player_speed = SPD;
 
 let score = 0
 let high_score = 0
@@ -37,7 +39,7 @@ let level = 1;
 canvas.width = 1024;
 canvas.height = 520;
 var ctx = canvas.getContext("2d");
-const gravity = .5;
+var gravity = .5;
 canvas.contentEditable = true;
 
 class Player {
@@ -58,17 +60,24 @@ class Player {
   }
 
   draw() {
-    if(keys.top.pressed){
+    if (level == 2) {
+      if (keys.top.pressed) {
+        ctx.drawImage(up, this.position.x, this.position.y, 80, 60);
+      }
+      else {
+        ctx.drawImage(down, this.position.x, this.position.y, 80, 60);
+      }
+    }
+    else if (keys.top.pressed) {
       ctx.drawImage(fly1, this.position.x, this.position.y, 80, 60);
     }
     else {
-      ctx.drawImage(fly2, this.position.x, this.position.y,  80, 60);
+      ctx.drawImage(fly2, this.position.x, this.position.y, 80, 60);
     }
   }
 
   update() {
     this.frame += 1;
-    // if(this.frame > 4) this.frame = 0;
     this.position.y += this.velocity.y;
     this.position.x += this.velocity.x;
     if (this.position.y + this.height + this.velocity.y <= canvas.height) { this.velocity.y += gravity; }
@@ -110,17 +119,17 @@ class GenericObject {
 }
 
 class Enemy {
-  constructor({x, y}) {
+  constructor({ x, y, image }) {
     this.position = {
       x,
       y
     }
-    this.image = m1;
+    this.image = image;
     this.width = 50;
     this.height = 50;
     this.velocity = {
       x: -1,
-      y:0
+      y: 0
     }
   }
 
@@ -155,14 +164,17 @@ class Obstacle {
   }
 }
 
-function launchFire(position){
+function launchFire(position) {
+
   return;
 }
 
 function init() {
-  enemies = []
+  keys.right.pressed = false;
+  random_m = obstacle_m_options[Math.floor(Math.random() * obstacle_m_options.length)];
+  enemies = [new Enemy({ x: 500, y: 200, image: random_m }), new Enemy({ x: 700, y: 200, image: random_m })];
   player_speed = SPD;
-  level = 1;
+  level = 2;
   if (score > high_score) {
     high_score = score;
   }
@@ -192,7 +204,7 @@ function init() {
     new Platform({ x: fire.width * 14 - 271, y: 200, image: purple }),
     new Platform({ x: fire.width * 16 - 350, y: 200, image: purple }),
   ]
-  
+
   obstacles = []
   obstacle_x_options.forEach((x) => {
     var random_o = obstacle_orientation_options[Math.floor(Math.random() * obstacle_orientation_options.length)];
@@ -228,9 +240,9 @@ let platforms = [
   new Platform({ x: fire.width * 4 - 70, y: 400, image: fire }),
   new Platform({ x: fire.width * 5 - 90, y: 400, image: fire }),
   new Platform({ x: fire.width * 6 - 110, y: 400, image: water }),
-  new Platform({ x: fire.width * 7 - 130, y: 400, image: purple }),
-  new Platform({ x: fire.width * 8 - 150, y: 400, image: purple }),
-  new Platform({ x: fire.width * 9 - 170, y: 400, image: purple }),
+  new Platform({ x: fire.width * 7 - 190, y: 400, image: purple }),
+  new Platform({ x: fire.width * 8 - 400, y: 400, image: purple }),
+  new Platform({ x: fire.width * 9 - 300, y: 400, image: purple }),
   new Platform({ x: fire.width * 10 - 190, y: 400, image: purple }),
   new Platform({ x: fire.width * 11 - 210, y: 400, image: purple }),
   new Platform({ x: fire.width * 12 - 230, y: 400, image: water }),
@@ -271,7 +283,8 @@ let genericObjects = [
   new GenericObject({ x: 8350, y: 0, image: rules_one })
 ];
 
-let enemies = [new Enemy({x:500, y:200}), new Enemy({x:700, y:200})];
+var random_m = obstacle_m_options[Math.floor(Math.random() * obstacle_m_options.length)];
+let enemies = [new Enemy({ x: 500, y: 200, image: random_m }), new Enemy({ x: 700, y: 200, image: random_m })];
 
 let won = false
 let scrollOfset = 0
@@ -324,40 +337,46 @@ function animate() {
   // ctx.fillText("Dont Touch The Monsters,", 700, 270);
   // ctx.fillText("Dont Touch The Lava.", 700, 300);
 
+  var gs = [-0.2, -0.4, 0.2, 0.4];
+
+  if (level == 2) {
+    // var random_g = gs[Math.floor(Math.random() * gs.length)];
+    // gravity = random_g;
+    // console.log(gravity);
+    gravity = 0;
+  }
+
   platforms.forEach((pl) => {
     if (p.position.y + p.height <= pl.position.y && p.position.y + p.height + p.velocity.y >= pl.position.y && p.position.x + p.width / 2 >= pl.position.x && p.position.x + p.width / 2 <= pl.position.x + pl.width) {
       if (pl.image == water) { p.velocity.y = 0; }
-      else if(pl.image == purple) { p.velocity.y = 0; }
-      else if(pl.image == grass) { p.velocity.y -= 20; }
-      else if(pl.image == fire) { init(); }
+      else if (pl.image == purple) { p.velocity.y = 0; }
+      else if (pl.image == grass) { p.velocity.y -= 20; }
+      else if (pl.image == fire) { init(); }
     }
   })
 
   enemies.forEach((e) => {
     platforms.forEach((pl) => {
-      if (e.position.y + e.height <= pl.position.y && e.position.y + e.height + e.velocity.y >= pl.position.y && e.position.x + e.width / 2 >= pl.position.x && e.position.x + e.width / 2 <= pl.position.x + pl.width) {
+      if (e.position.y + e.height - 8 <= pl.position.y && e.position.y + e.height + e.velocity.y - 8 >= pl.position.y && e.position.x + e.width / 2 >= pl.position.x && e.position.x + e.width / 2 <= pl.position.x + pl.width) {
         e.velocity.y = 0;
       }
-    })      
-  }) 
+    })
+  })
 
   enemies.forEach((e) => {
-        if (p.position.x + p.width -120> e.position.x && p.position.y > e.position.y && p.position.y < e.position.y + e.height && p.position.x < e.position.x + e.width) {
-          console.log("2")
-          init();
-      }
+    if (p.position.x + p.width - 120 > e.position.x && p.position.y + p.height > e.position.y && p.position.y < e.position.y + e.height && p.position.x < e.position.x + e.width) {
+      init();
+    }
   })
 
   obstacles.forEach((o) => {
     if (o.orientation == "up") {
-      if (p.position.x + p.width -90 > o.position.x && p.position.y > o.position.y && p.position.x < o.position.x + o.width) {
-        console.log("2")
+      if (p.position.x + p.width - 90 > o.position.x && p.position.y > o.position.y && p.position.x < o.position.x + o.width) {
         init();
       }
     }
     else {
       if (p.position.y + 20 <= o.position.y + o.height && p.position.x + p.width - 100 >= o.position.x && p.position.x + 100 <= o.position.x + o.width) {
-        console.log("3")
         init();
       }
     }
@@ -404,50 +423,62 @@ function animate() {
     }
   }
 
+  if (p.position.y <= -1) {
+    p.position.y = 0;
+  }
+
   if (p.position.y + p.height >= canvas.height) {
-    p.velocity.y = 0;
+    if (won) {
+      window.location.href = '/p';
+    }
+    else {
+      init();
+    }
   }
 
   if (score == 850) {
-    level = 2
-    player_speed = 12
+    level = 2;
+    gravity = 1;
+    player_speed = 4;
     console.log("Level 2")
   }
   if (score == 1330) {
-    level = 3
-    player_speed = 17
+    level = 3;
+    gravity = 0.5;
+    player_speed = 10;
     console.log("Level 3")
     document.addEventListener('keyup', ({ keyCode }) => {
       switch (keyCode) {
         case 32:
           console.log("SpACE");
           launchFire(p.position);
-        break;
+          break;
       }
     })
-    for(let i = 13; i < 35; i+=2 )
-    {
-      enemies.push(new Enemy({x:i*200, y:100}))
+    for (let i = 13; i < 35; i += 2) {
+      random_m = obstacle_m_options[Math.floor(Math.random() * obstacle_m_options.length)];
+      enemies.push(new Enemy({ x: i * 200, y: 100, image: random_m }))
     }
   }
-  if (score == 1700) {
+  if (score == 1900) {
     p.velocity.x = 0
-    p.velocity.y = 0
-    document.removeEventListener('keydown', ({keyCode}) => {
+    p.velocity.y = 5
+    won = true;
+    document.removeEventListener('keydown', ({ keyCode }) => {
       switch (keyCode) {
         default:
           keys.right.pressed = false;
           keys.left.pressed = false;
-                break;
-      }    
+          break;
+      }
     });
-    document.removeEventListener('keyup', ({keyCode}) => {
+    document.removeEventListener('keyup', ({ keyCode }) => {
       switch (keyCode) {
         default:
           keys.right.pressed = false;
           keys.left.pressed = false;
-                break;
-      }    
+          break;
+      }
     });
   }
 }
@@ -457,19 +488,21 @@ animate();
 document.addEventListener('keydown', ({ keyCode }) => {
   switch (keyCode) {
     case 65:
-      keys.left.pressed = true;
       break;
     case 83:
+      if(level == 2) {
+        if (won == false) p.velocity.y = +5;
+      }
       break;
     case 68:
       keys.right.pressed = true;
       break
     case 87:
       keys.top.pressed = true;
-      if (won == false) p.velocity.y = -10;
+      if (won == false && level == 2) p.velocity.y = -5;
+      if (won == false && level != 2) p.velocity.y = -10;
       break;
   }
-  console.log(keys.right.pressed);
 })
 
 document.addEventListener('keyup', ({ keyCode }) => {
@@ -478,13 +511,15 @@ document.addEventListener('keyup', ({ keyCode }) => {
       keys.left.pressed = false;
       break;
     case 83:
+      if(level == 2) {
+        if (won == false) p.velocity.y = 0;
+      }
       break;
     case 68:
-      keys.right.pressed = false;
       break
     case 87:
       keys.top.pressed = false;
       if (won == false) p.velocity.y = 0;
-    break;
+      break;
   }
 })

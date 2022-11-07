@@ -4,8 +4,21 @@ function newImage(name, ext) {
   return new_image;
 }
 
+const bangersFont = new FontFace('Bangers Regular', 'url(/static/Heartless.ttf)');
+
+bangersFont.load().then(function(loadedFont) {
+  document.fonts.add(loadedFont)
+  ctx.font = loadedFont;
+  console.log(loadedFont);
+}).catch(function(error) {
+  console.log('Failed to load font: ' + error)
+})
+
+
+const rl = newImage("rl", "jpg");
 const hills = newImage("hills", "png");
 const background = newImage("background", "png");
+const space_bg = newImage("space_bg", "jpg");
 const fire = newImage("platforms/fire", "png");
 const purple = newImage("platforms/purple", "png");
 const water = newImage("platforms/water", "png");
@@ -21,7 +34,7 @@ const m3r = newImage("monsters/m3r", "png");
 const m4r = newImage("monsters/m4r", "png");
 const m5r = newImage("monsters/m5r", "png");
 const bat = newImage("giphy", "gif");
-const rules_one = newImage("/game_rules/rules_one", "jpeg");
+const rules_one = newImage("r", "png");
 const fly1 = newImage("players/frame-1", "png");
 const fly2 = newImage("players/frame-2", "png");
 const up = newImage("players/up", "png");
@@ -114,7 +127,7 @@ class GenericObject {
   }
 
   draw() {
-    ctx.drawImage(this.image, this.position.x, this.position.y);
+      ctx.drawImage(this.image, this.position.x, this.position.y, this.image.width, this.image.height);      
   }
 }
 
@@ -201,10 +214,12 @@ function init() {
     new Platform({ x: fire.width * 16 - 350, y: 400, image: grass }),
     new Platform({ x: fire.width * 17 - 380, y: 400, image: grass }),
     new Platform({ x: fire.width * 18 - 410, y: 400, image: water }),
-    new Platform({ x: fire.width * 13 - 260, y: 150, image: purple }),
-    new Platform({ x: fire.width * 14 - 271, y: 200, image: purple }),
+    new Platform({ x: fire.width * 14 - 260, y: 200, image: purple }),
+    new Platform({ x: fire.width * 15 - 271, y: 200, image: purple }),
     new Platform({ x: fire.width * 16 - 350, y: 200, image: purple }),
-  ]
+    new Platform({ x: fire.width * 17 - 380, y: 200, image: purple }),
+    new Platform({ x: fire.width * 18 - 410, y: 200, image: purple }),
+    ]
 
   obstacles = []
   obstacle_x_options.forEach((x) => {
@@ -223,11 +238,23 @@ function init() {
   genericObjects = [
     new GenericObject({ x: -1, y: -1, image: background }),
     new GenericObject({ x: -1, y: -1, image: hills }),
+    new GenericObject({ x: 4200, y: -1, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width -2, y: -1, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width*2 -4, y: -1, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width*3 -6, y: -1, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width*4 -8, y: -1, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width*5 -100, y: -1, image: space_bg }),
+    new GenericObject({ x: 4200, y: space_bg.height-2, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width -2, y:space_bg.height-2, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width*2 -4, y: space_bg.height-2, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width*3 -6, y: space_bg.height-2, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width*4 -8, y: space_bg.height-2, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width*5 -100, y: space_bg.height-2, image: space_bg }),
     new GenericObject({ x: 650, y: 0, image: rules_one }),
     new GenericObject({ x: 4500, y: 0, image: rules_one }),
     new GenericObject({ x: 8350, y: 0, image: rules_one })
-  ];
-
+    ];
+  
   scrollOfset = 0
 }
 
@@ -252,9 +279,11 @@ let platforms = [
   new Platform({ x: fire.width * 16 - 350, y: 400, image: grass }),
   new Platform({ x: fire.width * 17 - 380, y: 400, image: grass }),
   new Platform({ x: fire.width * 18 - 410, y: 400, image: water }),
-  new Platform({ x: fire.width * 13 - 260, y: 150, image: purple }),
-  new Platform({ x: fire.width * 14 - 271, y: 200, image: purple }),
+  new Platform({ x: fire.width * 14 - 260, y: 200, image: purple }),
+  new Platform({ x: fire.width * 15 - 271, y: 200, image: purple }),
   new Platform({ x: fire.width * 16 - 350, y: 200, image: purple }),
+  new Platform({ x: fire.width * 17 - 380, y: 200, image: purple }),
+  new Platform({ x: fire.width * 18 - 410, y: 200, image: purple }),
 ]
 
 let obstacles = []
@@ -277,16 +306,29 @@ obstacle_x_options.forEach((x) => {
 })
 
 let genericObjects = [
-  new GenericObject({ x: -1, y: -1, image: background }),
-  new GenericObject({ x: -1, y: -1, image: hills }),
-  new GenericObject({ x: 650, y: 0, image: rules_one }),
+  new GenericObject({ x: -1000, y: -1, image: rl }),
+  new GenericObject({ x: 4200 + space_bg.width*6, y: -1, image: background }),
+  new GenericObject({ x: 4200 + space_bg.width*6, y: -1, image: hills }),
+  new GenericObject({ x: 4200, y: -1, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width -2, y: -1, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width*2 -4, y: -1, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width*3 -6, y: -1, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width*4 -8, y: -1, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width*5 -100, y: -1, image: space_bg }),
+  new GenericObject({ x: 4200, y: space_bg.height-2, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width -2, y:space_bg.height-2, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width*2 -4, y: space_bg.height-2, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width*3 -6, y: space_bg.height-2, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width*4 -8, y: space_bg.height-2, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width*5 -100, y: space_bg.height-2, image: space_bg }),
+  // new GenericObject({ x: 200, y: 0, image: rules_one }),
   new GenericObject({ x: 4500, y: 0, image: rules_one }),
   new GenericObject({ x: 8350, y: 0, image: rules_one })
 ];
 
 var random_m = obstacle_m_options[Math.floor(Math.random() * obstacle_m_options.length)];
-let enemies = [new Enemy({ x: 500, y: 200, image: random_m }), new Enemy({ x: 700, y: 200, image: random_m })];
-
+// let enemies = [new Enemy({ x: 500, y: 200, image: random_m }), new Enemy({ x: 700, y: 200, image: random_m })];
+let enemies = []
 let won = false
 let scrollOfset = 0
 
@@ -327,11 +369,12 @@ function animate() {
 
   ctx.fillStyle = "white";
   ctx.font = '24px serif';
-  ctx.fillText("Score: " + score, 50, 50);
-  ctx.fillText("High Score: " + high_score, 50, 100);
-  ctx.fillText("Level: " + level, 50, 150);
-  // ctx.fillText("Controls:", 700, 100);
-  // ctx.fillText("W - Jump", 700, 130);
+  ctx.fillText("Score: " + score, 50, 30);
+  ctx.fillText("High Score: " + high_score, 50, 80);
+  ctx.fillText("Level: " + level, 50, 130);
+  ctx.fillStyle = "#e25822";
+  ctx.font = "170px Bangers Regular";
+  ctx.fillText("Spooky Bird", 250, 150);
   // ctx.fillText("D - Move Right", 700, 160);
   // ctx.fillText("A - Move Left", 700, 190);
   // ctx.fillText("Rules:", 700, 240);
@@ -365,7 +408,7 @@ function animate() {
 
   enemies.forEach((e) => {
     if (p.position.x + p.width  > e.position.x && p.position.y + p.height > e.position.y && p.position.y < e.position.y + e.height && p.position.x < e.position.x + e.width) {
-      init();
+      
     }
   })
 
@@ -443,11 +486,10 @@ function animate() {
     }
   }
 
-  if (score == 850) {
+  if (score == Math.round(SPD*121.42857)) {
     keys.right.pressed = false;
     score += 1;
     level = 2;
-    player_speed = 10;
     console.log("Level 2")
     for (let i = 10; i < 65; i += 7) {
       random_m = obstacle_m_options[Math.floor(Math.random() * obstacle_m_options.length)];
@@ -455,13 +497,12 @@ function animate() {
     }
   }
 
-  if (score == 1435) {
+  if (score == Math.round(SPD*245.71428)) {
     keys.right.pressed = false;
     score += 1;
     level = 3;
     gravity = 0.5;
     enemy_gravity = 0.5;
-    player_speed = 10;
     console.log("Level 3")
     document.addEventListener('keyup', ({ keyCode }) => {
       switch (keyCode) {
@@ -477,7 +518,7 @@ function animate() {
     }
   }
 
-  if (score == 1950) {
+  if (score == Math.round(SPD*278.57142)) {
     p.velocity.x = 0
     p.velocity.y = 5
     won = true;

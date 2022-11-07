@@ -14,8 +14,8 @@ bangersFont.load().then(function(loadedFont) {
   console.log('Failed to load font: ' + error)
 })
 
-
-const rl = newImage("rl", "jpg");
+const orange_logo = newImage("orange_logo", "png");
+const forest = newImage("forest", "jpg");
 const hills = newImage("hills", "png");
 const background = newImage("background", "png");
 const space_bg = newImage("space_bg", "jpg");
@@ -34,7 +34,6 @@ const m3r = newImage("monsters/m3r", "png");
 const m4r = newImage("monsters/m4r", "png");
 const m5r = newImage("monsters/m5r", "png");
 const bat = newImage("giphy", "gif");
-const rules_one = newImage("r", "png");
 const fly1 = newImage("players/frame-1", "png");
 const fly2 = newImage("players/frame-2", "png");
 const up = newImage("players/up", "png");
@@ -177,9 +176,6 @@ class Obstacle {
   }
 }
 
-function launchFire(position) {
-  return;
-}
 
 function init() {
   gravity = 0.5;
@@ -236,24 +232,25 @@ function init() {
 
 
   genericObjects = [
-    new GenericObject({ x: -1, y: -1, image: background }),
-    new GenericObject({ x: -1, y: -1, image: hills }),
+    new GenericObject({ x: -1000, y: -1, image: forest }),
+    new GenericObject({ x: 4200 + space_bg.width*6 - 100, y: -1, image: background }),
+    new GenericObject({ x: 4200 + space_bg.width*6 - 100, y: -1, image: hills }),
     new GenericObject({ x: 4200, y: -1, image: space_bg }),
     new GenericObject({ x: 4200 + space_bg.width -2, y: -1, image: space_bg }),
     new GenericObject({ x: 4200 + space_bg.width*2 -4, y: -1, image: space_bg }),
     new GenericObject({ x: 4200 + space_bg.width*3 -6, y: -1, image: space_bg }),
     new GenericObject({ x: 4200 + space_bg.width*4 -8, y: -1, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width*5 -100, y: -1, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width*5-10, y: -1, image: space_bg }),
     new GenericObject({ x: 4200, y: space_bg.height-2, image: space_bg }),
     new GenericObject({ x: 4200 + space_bg.width -2, y:space_bg.height-2, image: space_bg }),
     new GenericObject({ x: 4200 + space_bg.width*2 -4, y: space_bg.height-2, image: space_bg }),
     new GenericObject({ x: 4200 + space_bg.width*3 -6, y: space_bg.height-2, image: space_bg }),
     new GenericObject({ x: 4200 + space_bg.width*4 -8, y: space_bg.height-2, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width*5 -100, y: space_bg.height-2, image: space_bg }),
-    new GenericObject({ x: 650, y: 0, image: rules_one }),
-    new GenericObject({ x: 4500, y: 0, image: rules_one }),
-    new GenericObject({ x: 8350, y: 0, image: rules_one })
-    ];
+    new GenericObject({ x: 4200 + space_bg.width*5-10, y: space_bg.height-2, image: space_bg }),
+    new GenericObject({ x: 0, y: 50, image: orange_logo }),
+    // new GenericObject({ x: 4500, y: 0, image: rules_one }),
+    // new GenericObject({ x: 8350, y: 0, image: rules_one })
+      ];
   
   scrollOfset = 0
 }
@@ -306,28 +303,27 @@ obstacle_x_options.forEach((x) => {
 })
 
 let genericObjects = [
-  new GenericObject({ x: -1000, y: -1, image: rl }),
-  new GenericObject({ x: 4200 + space_bg.width*6, y: -1, image: background }),
-  new GenericObject({ x: 4200 + space_bg.width*6, y: -1, image: hills }),
+  new GenericObject({ x: -1000, y: -1, image: forest }),
+  new GenericObject({ x: 4200 + space_bg.width*6 - 100, y: -1, image: background }),
+  new GenericObject({ x: 4200 + space_bg.width*6 - 100, y: -1, image: hills }),
   new GenericObject({ x: 4200, y: -1, image: space_bg }),
   new GenericObject({ x: 4200 + space_bg.width -2, y: -1, image: space_bg }),
   new GenericObject({ x: 4200 + space_bg.width*2 -4, y: -1, image: space_bg }),
   new GenericObject({ x: 4200 + space_bg.width*3 -6, y: -1, image: space_bg }),
   new GenericObject({ x: 4200 + space_bg.width*4 -8, y: -1, image: space_bg }),
-  new GenericObject({ x: 4200 + space_bg.width*5 -100, y: -1, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width*5-10, y: -1, image: space_bg }),
   new GenericObject({ x: 4200, y: space_bg.height-2, image: space_bg }),
   new GenericObject({ x: 4200 + space_bg.width -2, y:space_bg.height-2, image: space_bg }),
   new GenericObject({ x: 4200 + space_bg.width*2 -4, y: space_bg.height-2, image: space_bg }),
   new GenericObject({ x: 4200 + space_bg.width*3 -6, y: space_bg.height-2, image: space_bg }),
   new GenericObject({ x: 4200 + space_bg.width*4 -8, y: space_bg.height-2, image: space_bg }),
-  new GenericObject({ x: 4200 + space_bg.width*5 -100, y: space_bg.height-2, image: space_bg }),
-  // new GenericObject({ x: 200, y: 0, image: rules_one }),
-  new GenericObject({ x: 4500, y: 0, image: rules_one }),
-  new GenericObject({ x: 8350, y: 0, image: rules_one })
+  new GenericObject({ x: 4200 + space_bg.width*5-10, y: space_bg.height-2, image: space_bg }),
+  new GenericObject({ x: -10, y: 50, image: orange_logo }),
+  // new GenericObject({ x: 4500, y: 0, image: rules_one }),
+  // new GenericObject({ x: 8350, y: 0, image: rules_one })
 ];
 
 var random_m = obstacle_m_options[Math.floor(Math.random() * obstacle_m_options.length)];
-// let enemies = [new Enemy({ x: 500, y: 200, image: random_m }), new Enemy({ x: 700, y: 200, image: random_m })];
 let enemies = []
 let won = false
 let scrollOfset = 0
@@ -368,18 +364,27 @@ function animate() {
   })
 
   ctx.fillStyle = "white";
-  ctx.font = '24px serif';
-  ctx.fillText("Score: " + score, 50, 30);
-  ctx.fillText("High Score: " + high_score, 50, 80);
-  ctx.fillText("Level: " + level, 50, 130);
-  ctx.fillStyle = "#e25822";
-  ctx.font = "170px Bangers Regular";
-  ctx.fillText("Spooky Bird", 250, 150);
-  // ctx.fillText("D - Move Right", 700, 160);
-  // ctx.fillText("A - Move Left", 700, 190);
-  // ctx.fillText("Rules:", 700, 240);
-  // ctx.fillText("Dont Touch The Monsters,", 700, 270);
-  // ctx.fillText("Dont Touch The Lava.", 700, 300);
+  ctx.font = '15px serif';
+  ctx.fillText("Score: " + score, 950, 30);
+  ctx.fillText("High Score: " + high_score, 916, 50);
+  ctx.fillText("Level: " + level, 950, 70);
+  if(score == 0) {
+    ctx.fillText("Dont Touch The Monsters.", 850, 350);
+    ctx.fillText("Dont Touch The Lava.", 850, 370);  
+    ctx.fillText("Press D to start.", 850, 390);  
+  }
+  if(score > 840 && score < 860) {
+    ctx.fillText("Dont Touch The Monsters.", 850, 330);
+    ctx.fillText("Press W to move up.", 850, 350);
+    ctx.fillText("Press S to move down.", 850, 370);
+    ctx.fillText("Press D to start.", 850, 390);  
+  }
+  if(score > 1710 && score < 1730) {
+    ctx.fillText("Dont Touch The Monsters.", 850, 330);
+    ctx.fillText("Press W to move up.", 850, 350);
+    ctx.fillText("Press S to move down.", 850, 370);
+    ctx.fillText("Press D to start.", 850, 390);  
+  }
 
   var gs = [-0.2, -0.4, 0.2, 0.4];
 
@@ -504,21 +509,13 @@ function animate() {
     gravity = 0.5;
     enemy_gravity = 0.5;
     console.log("Level 3")
-    document.addEventListener('keyup', ({ keyCode }) => {
-      switch (keyCode) {
-        case 32:
-          console.log("SpACE");
-          launchFire(p.position);
-          break;
-      }
-    })
     for (let i = 9; i < 35; i += 2) {
       random_m = obstacle_m_options[Math.floor(Math.random() * obstacle_m_options.length)];
       enemies.push(new Enemy({ x: i * 200, y: 0, image: random_m }))
     }
   }
 
-  if (score == Math.round(SPD*278.57142)) {
+  if (score == 2200) {
     p.velocity.x = 0
     p.velocity.y = 5
     won = true;

@@ -9,7 +9,7 @@ import time
 def hello():
     return flask.render_template("index.html")
 
-@app.route("/p")
+@app.route("/leaderboard")
 @cross_origin()
-def p():
-    return flask.render_template("p.html", a=5)
+def leaderboard():
+    return flask.render_template("leaderboard.html", a=5)

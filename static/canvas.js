@@ -3,8 +3,12 @@ function newImage(name, ext) {
   new_image.src = "/static/" + name + "." + ext;
   return new_image;
 }
+const bangersFont = new FontFace('Bangers Regular', 'url(/static/fonts/Heartless.ttf)');
+var started = false;
+var start_time;
+var end_time;
+var ended = false;
 
-const bangersFont = new FontFace('Bangers Regular', 'url(/static/Heartless.ttf)');
 
 bangersFont.load().then(function(loadedFont) {
   document.fonts.add(loadedFont)
@@ -14,11 +18,12 @@ bangersFont.load().then(function(loadedFont) {
   console.log('Failed to load font: ' + error)
 })
 
-const orange_logo = newImage("orange_logo", "png");
-const forest = newImage("forest", "jpg");
-const hills = newImage("hills", "png");
-const background = newImage("background", "png");
-const space_bg = newImage("space_bg", "jpg");
+const winner = newImage("text/winner", "png");
+const orange_logo = newImage("text/orange_logo", "png");
+const forest = newImage("background_images/forest", "jpg");
+const hills = newImage("background_images/hills", "png");
+const background = newImage("background_images/background", "png");
+const space_bg = newImage("background_images/space_bg", "jpg");
 const fire = newImage("platforms/fire", "png");
 const purple = newImage("platforms/purple", "png");
 const water = newImage("platforms/water", "png");
@@ -33,7 +38,6 @@ const m2r = newImage("monsters/m2r", "png");
 const m3r = newImage("monsters/m3r", "png");
 const m4r = newImage("monsters/m4r", "png");
 const m5r = newImage("monsters/m5r", "png");
-const bat = newImage("giphy", "gif");
 const fly1 = newImage("players/frame-1", "png");
 const fly2 = newImage("players/frame-2", "png");
 const up = newImage("players/up", "png");
@@ -181,7 +185,6 @@ function init() {
   gravity = 0.5;
   enemy_gravity = 0.5;
   keys.right.pressed = false;
-  random_m = obstacle_m_options[Math.floor(Math.random() * obstacle_m_options.length)];
   enemies = [];
   player_speed = SPD;
   level = 1;
@@ -207,14 +210,12 @@ function init() {
     new Platform({ x: fire.width * 12 - 230, y: 400, image: water }),
     new Platform({ x: fire.width * 13 - 260, y: 400, image: grass }),
     new Platform({ x: fire.width * 15 - 320, y: 400, image: grass }),
-    new Platform({ x: fire.width * 16 - 350, y: 400, image: grass }),
     new Platform({ x: fire.width * 17 - 380, y: 400, image: grass }),
     new Platform({ x: fire.width * 18 - 410, y: 400, image: water }),
     new Platform({ x: fire.width * 14 - 260, y: 200, image: purple }),
     new Platform({ x: fire.width * 15 - 271, y: 200, image: purple }),
     new Platform({ x: fire.width * 16 - 350, y: 200, image: purple }),
     new Platform({ x: fire.width * 17 - 380, y: 200, image: purple }),
-    new Platform({ x: fire.width * 18 - 410, y: 200, image: purple }),
     ]
 
   obstacles = []
@@ -247,10 +248,9 @@ function init() {
     new GenericObject({ x: 4200 + space_bg.width*3 -6, y: space_bg.height-2, image: space_bg }),
     new GenericObject({ x: 4200 + space_bg.width*4 -8, y: space_bg.height-2, image: space_bg }),
     new GenericObject({ x: 4200 + space_bg.width*5-10, y: space_bg.height-2, image: space_bg }),
-    new GenericObject({ x: 0, y: 50, image: orange_logo }),
-    // new GenericObject({ x: 4500, y: 0, image: rules_one }),
-    // new GenericObject({ x: 8350, y: 0, image: rules_one })
-      ];
+    new GenericObject({ x: -10, y: 50, image: orange_logo }),
+    new GenericObject({ x: 11500, y: 0, image: winner })
+  ];
   
   scrollOfset = 0
 }
@@ -272,15 +272,11 @@ let platforms = [
   new Platform({ x: fire.width * 11 - 210, y: 400, image: purple }),
   new Platform({ x: fire.width * 12 - 230, y: 400, image: water }),
   new Platform({ x: fire.width * 13 - 260, y: 400, image: grass }),
-  new Platform({ x: fire.width * 15 - 320, y: 400, image: grass }),
-  new Platform({ x: fire.width * 16 - 350, y: 400, image: grass }),
+  new Platform({ x: fire.width * 15 - 290, y: 400, image: grass }),
   new Platform({ x: fire.width * 17 - 380, y: 400, image: grass }),
   new Platform({ x: fire.width * 18 - 410, y: 400, image: water }),
   new Platform({ x: fire.width * 14 - 260, y: 200, image: purple }),
-  new Platform({ x: fire.width * 15 - 271, y: 200, image: purple }),
   new Platform({ x: fire.width * 16 - 350, y: 200, image: purple }),
-  new Platform({ x: fire.width * 17 - 380, y: 200, image: purple }),
-  new Platform({ x: fire.width * 18 - 410, y: 200, image: purple }),
 ]
 
 let obstacles = []
@@ -319,14 +315,15 @@ let genericObjects = [
   new GenericObject({ x: 4200 + space_bg.width*4 -8, y: space_bg.height-2, image: space_bg }),
   new GenericObject({ x: 4200 + space_bg.width*5-10, y: space_bg.height-2, image: space_bg }),
   new GenericObject({ x: -10, y: 50, image: orange_logo }),
-  // new GenericObject({ x: 4500, y: 0, image: rules_one }),
-  // new GenericObject({ x: 8350, y: 0, image: rules_one })
+  new GenericObject({ x: 11500, y: 0, image: winner })
 ];
 
 var random_m = obstacle_m_options[Math.floor(Math.random() * obstacle_m_options.length)];
 let enemies = []
 let won = false
 let scrollOfset = 0
+var level2monst = false;
+var level3monst = false;
 
 let keys = {
   top: {
@@ -484,15 +481,15 @@ function animate() {
 
   if (p.position.y + p.height >= canvas.height) {
     if (won) {
-      window.location.href = '/p';
+      window.location.href = '/leaderboard';
     }
     else {
       init();
     }
   }
 
-  if (score == Math.round(SPD*121.42857)) {
-    keys.right.pressed = false;
+  if (score == Math.round(SPD*121.42857)  && level2monst == false) {
+    level2monst = true;
     score += 1;
     level = 2;
     console.log("Level 2")
@@ -502,8 +499,8 @@ function animate() {
     }
   }
 
-  if (score == Math.round(SPD*245.71428)) {
-    keys.right.pressed = false;
+  if (score == Math.round(SPD*245.71428)  && level3monst == false) {
+    level3monst = true;
     score += 1;
     level = 3;
     gravity = 0.5;
@@ -515,7 +512,14 @@ function animate() {
     }
   }
 
-  if (score == 2200) {
+  if (score == 2500) {
+    if(ended == false) {
+      ended = true;
+      end_time = Date.now();
+      console.log("END TIME: ", end_time);
+      let seconds = Math.abs(start_time - end_time)/1000;
+      console.log("SECONDS: ", seconds);
+    }
     p.velocity.x = 0
     p.velocity.y = 5
     won = true;
@@ -541,8 +545,14 @@ function animate() {
 animate();
 
 document.addEventListener('keydown', ({ keyCode }) => {
-  switch (keyCode) {
+  if(started == false) {
+    started = true;
+    start_time = Date.now();
+    console.log("START TIME: ", start_time);
+  };
+switch (keyCode) {
     case 65:
+      keys.left.pressed = true;
       break;
     case 83:
       if(level == 2) {
@@ -571,6 +581,7 @@ document.addEventListener('keyup', ({ keyCode }) => {
       }
       break;
     case 68:
+      keys.right.pressed = false;
       break
     case 87:
       keys.top.pressed = false;

@@ -3,10 +3,10 @@ from flask import Flask
 from flask_cors import CORS, cross_origin
 app = Flask(__name__)
 import time
-from flask_pymongo import PyMongo
-import pymongo
-import urllib
-import os
+# from flask_pymongo import PyMongo
+# import pymongo
+# import urllib
+# import os
 
 # passwordvalue = os.environ.get("DB_ENV")
 

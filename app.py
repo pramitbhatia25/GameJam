@@ -6,9 +6,9 @@ import time
 from flask_pymongo import PyMongo
 import pymongo
 import urllib
-# import os
+import os
 
-# passwordvalue = os.environ.get("DB_ENV")
+passwordvalue = os.environ.get("DB_ENV")
 
 client = pymongo.MongoClient("mongodb+srv://pramit25:" + urllib.parse.quote("Pram@197058") + "@cluster0.nyi9mlm.mongodb.net/?retryWrites=true&w=majority")
 db = client["Cluster0"]
@@ -30,4 +30,4 @@ def leaderboard(name, score):
     all = []
     for document in cursor:
         all.append(document)
-    return flask.render_template("leaderboard.html", p_name=name, p_score=score, all=all)
+    return flask.render_template("leaderboard.html", p = passwordvalue, p_name=name, p_score=score, all=all)

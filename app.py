@@ -8,7 +8,7 @@ import pymongo
 import urllib
 import os
 
-passwordvalue = os.environ.get("DB_ENV")
+# passwordvalue = os.environ.get("DB_ENV")
 
 client = pymongo.MongoClient("mongodb+srv://pramit25:" + urllib.parse.quote("Pram@197058") + "@cluster0.nyi9mlm.mongodb.net/?retryWrites=true&w=majority")
 db = client["Cluster0"]

@@ -336,6 +336,7 @@ let keys = {
     pressed: false,
   }
 }
+var reported = false
 
 function animate() {
   requestAnimationFrame(animate);
@@ -365,6 +366,17 @@ function animate() {
   ctx.fillText("Score: " + score, 950, 30);
   ctx.fillText("High Score: " + high_score, 916, 50);
   ctx.fillText("Level: " + level, 950, 70);
+  if(started && !ended) {
+    var t = Date.now();
+    var tt = Math.abs(Date.now() - start_time)/1000;
+    ctx.fillText("Time: " + tt, 926, 90);  
+  }
+  if(ended) {
+    var t = Date.now();
+    var tt = Math.abs(end_time - start_time)/1000;
+    ctx.fillText("Time: " + tt, 926, 90);  
+  }
+
   if(score == 0) {
     ctx.fillText("Dont Touch The Monsters.", 850, 350);
     ctx.fillText("Dont Touch The Lava.", 850, 370);  
@@ -478,10 +490,10 @@ function animate() {
       e.position.y = 0;
     }  
   })
-
   if (p.position.y + p.height >= canvas.height) {
-    if (won) {
-      window.location.href = '/leaderboard';
+    if (won && reported==false) {
+      reported=true
+      window.location.href = '/leaderboard/anon/' + Math.abs(start_time - end_time)/1000;
     }
     else {
       init();

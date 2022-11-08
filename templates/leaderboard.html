@@ -4,8 +4,34 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href={{ url_for('static',filename='styles.css') }}>
     <title>Document</title>
 </head>
 <body>
+    <div class="container">
+        LeaderBoard
+
+    <div class="my_score">
+        <div class="score">
+            {{p_name}}
+        </div>
+        <div class="score">
+            {{p_score}}
+        </div>
+    </div>
+
+    <div class="other_scores">
+        <div class="list">
+            {% for i in range(all | length):%}
+            <div class="each_item">
+                {%print("NAME: ", all[i]["Name"])%}
+                {%print("SCORE: ", all[i]["Score"])%}
+                <br>
+            </div>
+            {%endfor%}    
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

@@ -180,7 +180,7 @@ class Obstacle {
 }
 
 async function post_my_win() {
-  const response = await fetch('https://gamejam-gsu.herokuapp.com/leaderboard', {
+  const response = await fetch('https://gamejam-gsu.herokuapp.com/leaderboard/', {
     headers: {
       'Content-Type': 'application/json',
     },

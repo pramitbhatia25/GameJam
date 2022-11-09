@@ -13,10 +13,15 @@ db = client["Cluster0"]
 collection = db["customers"]
 
 
+@app.route("/<name>", methods=['GET'])
+@cross_origin()
+def hello(name):
+    return flask.render_template("index.html", name=name)
+
 @app.route("/")
 @cross_origin()
-def hello():
-    return flask.render_template("index.html")
+def home():
+    return flask.render_template("home.html")
 
 @app.route("/leaderboard/", methods=["GET", "POST"])
 @cross_origin()

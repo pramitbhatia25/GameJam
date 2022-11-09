@@ -9,16 +9,11 @@
 <body>
     <canvas></canvas>
     <div id="img" src=""></div>
-    <script type="text/javascript">
-var namee = JSON.parse('{{name | tojson}}');
-      </script>
-          <script
+    <script
     type="module"
-    src={{ url_for('static', filename='js/canvas.js') }}
+    src={{ url_for('static', filename='js/home.js') }}
     crossorigin="anonymous"
->
-</script>
-
+></script>    
     <style>
         body {
           align-items: center;

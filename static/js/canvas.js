@@ -186,7 +186,7 @@ async function post_my_win() {
     },
     method: 'POST',
     body: JSON.stringify({
-      "name": "Pramit",
+      "name": namee,
       "score": Math.abs(start_time - end_time) / 1000
     }),
   })

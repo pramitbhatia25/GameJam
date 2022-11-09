@@ -98,7 +98,7 @@ class GenericObject {
 
 
 async function post_my_win(name) {
-    window.location.href = 'http://http://gamejam-gsu.herokuapp.com/' + name;
+    window.location.href = 'http://gamejam-gsu.herokuapp.com/' + name;
 }
 
 let p = new Player({ x: 100, y: 100 });

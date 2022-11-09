@@ -180,7 +180,6 @@ class Obstacle {
 }
 
 async function post_my_win() {
-  console.log("ABRA")
   const response = await fetch('https://gamejam-gsu.herokuapp.com/leaderboard', {
     headers: {
       'Content-Type': 'application/json',
@@ -191,7 +190,6 @@ async function post_my_win() {
       "score": Math.abs(start_time - end_time) / 1000
     }),
   })
-  console.log("CADABRA");
   window.location.href = '/leaderboard/';
 }
 
@@ -500,13 +498,10 @@ function animate() {
       e.position.y = 0;
     }
   })
-
   if (p.position.y + p.height >= canvas.height) {
-    if (won == true ) {
-      if(reported == false) {
-        reported = true
-        post_my_win();  
-      }
+    if (won && reported == false) {
+      reported = true
+      post_my_win();
     }
     else {
       init();

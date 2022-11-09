@@ -3,19 +3,6 @@ function newImage(name, ext) {
     new_image.src = "/static/" + name + "." + ext;
     return new_image;
 }
-const bangersFont = new FontFace('Bangers Regular', 'url(/static/fonts/Heartless.ttf)');
-var started = false;
-var start_time;
-var end_time;
-var ended = false;
-
-
-bangersFont.load().then(function (loadedFont) {
-    document.fonts.add(loadedFont)
-    ctx.font = loadedFont;
-}).catch(function (error) {
-    console.log('Failed to load font: ' + error)
-})
 
 const orange_logo = newImage("text/orange_logo", "png");
 const forest = newImage("background_images/forest", "jpg");
@@ -53,6 +40,33 @@ class Player {
         else {
             ctx.drawImage(fly2, this.position.x, this.position.y, 80, 60);
         }
+    }
+
+    update() {
+        this.frame += 1;
+        this.position.y += this.velocity.y;
+        if (this.position.y + this.height + this.velocity.y <= canvas.height) { this.velocity.y += gravity; }
+        else { this.velocity.y = 0; }
+        this.draw();
+    }
+}
+
+class INP {
+    constructor({ x, y }) {
+        this.position = {
+            x,
+            y
+        }
+        this.width = 80;
+        this.height = 50;
+
+        this.velocity = {
+            y: 0,
+        }
+    }
+
+    draw() {
+            ctx.drawImage(fly1, this.position.x, this.position.y, 80, 60);
     }
 
     update() {
@@ -102,6 +116,8 @@ async function post_my_win(name) {
 }
 
 let p = new Player({ x: 100, y: 100 });
+let i = new INP({ x: 100, y: 100});
+i.addEventListener("click", function(){ alert("Hello World!"); });
 
 let platforms = [
     new Platform({ x: -5, y: 400, image: fire }),
@@ -135,10 +151,6 @@ function animate() {
 
     p.update();
 
-    enemies.forEach((e) => {
-        e.update();
-    })
-
     ctx.fillStyle = "white";
     ctx.font = '15px serif';
 
@@ -153,6 +165,7 @@ function animate() {
         post_my_win("Your Name");
         p.position.y = 0;
     }
+    i.update();
 }
 
 animate();

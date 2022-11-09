@@ -36,6 +36,8 @@ def leaderboard():
         new_score = {"Name" : name, "Score" : score}
         collection.insert_one(new_score)
         print("POSTED NEW ENTRY")
+        all = sorted(all, key=lambda i: (i['Score'], i['Name']))
         return flask.render_template("leaderboard.html", all=all)
     if(request.method == 'GET'):
+        all = sorted(all, key=lambda i: (i['Score'], i['Name']))
         return flask.render_template("leaderboard.html", all=all)

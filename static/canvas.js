@@ -499,9 +499,11 @@ function animate() {
     }
   })
   if (p.position.y + p.height >= canvas.height) {
-    if (won && reported == false) {
-      reported = true
-      post_my_win();
+    if (won) {
+      if(!reported) {
+        reported = true
+        post_my_win();  
+      }
     }
     else {
       init();

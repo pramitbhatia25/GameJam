@@ -8,30 +8,20 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="container">
-        LeaderBoard
-
-    <div class="my_score">
-        <div class="score">
-            {{p_name}}
-        </div>
-        <div class="score">
-            {{p_score}}
-        </div>
-    </div>
-
-    <div class="other_scores">
-        <div class="list">
-            {% for i in range(all | length):%}
-            <div class="each_item">
-                {%print("NAME: ", all[i]["Name"])%}
-                {%print("SCORE: ", all[i]["Score"])%}
-                <br>
-            </div>
-            {%endfor%}    
-        </div>
-    </div>
-</div>
+	<div class="container">
+		<div class="leaderboard">
+			<div class="body">
+				<ol>
+                    {% for i in range(all | length):%}
+					<li>
+						<mark>Name: {{all[i]["Name"]}}</mark>
+						<small>Score: {{all[i]["Score"]}}</small>
+					</li>
+                    {%endfor%}
+				</ol>
+			</div>
+		</div>
+	</div>
 
 </body>
 </html>

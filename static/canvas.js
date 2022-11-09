@@ -10,11 +10,10 @@ var end_time;
 var ended = false;
 
 
-bangersFont.load().then(function(loadedFont) {
+bangersFont.load().then(function (loadedFont) {
   document.fonts.add(loadedFont)
   ctx.font = loadedFont;
-  console.log(loadedFont);
-}).catch(function(error) {
+}).catch(function (error) {
   console.log('Failed to load font: ' + error)
 })
 
@@ -60,7 +59,7 @@ let level = 1;
 
 
 class Player {
-  constructor({ x, y}) {
+  constructor({ x, y }) {
     this.frame = 0
     this.position = {
       x,
@@ -130,7 +129,7 @@ class GenericObject {
   }
 
   draw() {
-      ctx.drawImage(this.image, this.position.x, this.position.y, this.image.width, this.image.height);      
+    ctx.drawImage(this.image, this.position.x, this.position.y, this.image.width, this.image.height);
   }
 }
 
@@ -180,6 +179,19 @@ class Obstacle {
   }
 }
 
+async function post_my_win() {
+  const response = await fetch('https://gamejam-gsu.herokuapp.com/leaderboard', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    body: JSON.stringify({
+      "name": "Pramit",
+      "score": Math.abs(start_time - end_time) / 1000
+    }),
+  })
+  window.location.href = '/leaderboard/';
+}
 
 function init() {
   gravity = 0.5;
@@ -192,7 +204,7 @@ function init() {
     high_score = score;
   }
   score = 0;
-  p = new Player({ x: 100, y: 100});
+  p = new Player({ x: 100, y: 100 });
 
   platforms = [
     new Platform({ x: 0, y: 400, image: water }),
@@ -216,7 +228,7 @@ function init() {
     new Platform({ x: fire.width * 15 - 271, y: 200, image: purple }),
     new Platform({ x: fire.width * 16 - 350, y: 200, image: purple }),
     new Platform({ x: fire.width * 17 - 380, y: 200, image: purple }),
-    ]
+  ]
 
   obstacles = []
   obstacle_x_options.forEach((x) => {
@@ -234,28 +246,28 @@ function init() {
 
   genericObjects = [
     new GenericObject({ x: -1000, y: -1, image: forest }),
-    new GenericObject({ x: 4200 + space_bg.width*6 - 100, y: -1, image: background }),
-    new GenericObject({ x: 4200 + space_bg.width*6 - 100, y: -1, image: hills }),
+    new GenericObject({ x: 4200 + space_bg.width * 6 - 100, y: -1, image: background }),
+    new GenericObject({ x: 4200 + space_bg.width * 6 - 100, y: -1, image: hills }),
     new GenericObject({ x: 4200, y: -1, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width -2, y: -1, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width*2 -4, y: -1, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width*3 -6, y: -1, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width*4 -8, y: -1, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width*5-10, y: -1, image: space_bg }),
-    new GenericObject({ x: 4200, y: space_bg.height-2, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width -2, y:space_bg.height-2, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width*2 -4, y: space_bg.height-2, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width*3 -6, y: space_bg.height-2, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width*4 -8, y: space_bg.height-2, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width*5-10, y: space_bg.height-2, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width - 2, y: -1, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width * 2 - 4, y: -1, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width * 3 - 6, y: -1, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width * 4 - 8, y: -1, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width * 5 - 10, y: -1, image: space_bg }),
+    new GenericObject({ x: 4200, y: space_bg.height - 2, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width - 2, y: space_bg.height - 2, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width * 2 - 4, y: space_bg.height - 2, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width * 3 - 6, y: space_bg.height - 2, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width * 4 - 8, y: space_bg.height - 2, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width * 5 - 10, y: space_bg.height - 2, image: space_bg }),
     new GenericObject({ x: -10, y: 50, image: orange_logo }),
     new GenericObject({ x: 11500, y: 0, image: winner })
   ];
-  
+
   scrollOfset = 0
 }
 
-let p = new Player({ x: 100, y: 100});
+let p = new Player({ x: 100, y: 100 });
 
 let platforms = [
   new Platform({ x: 0, y: 400, image: water }),
@@ -300,20 +312,20 @@ obstacle_x_options.forEach((x) => {
 
 let genericObjects = [
   new GenericObject({ x: -1000, y: -1, image: forest }),
-  new GenericObject({ x: 4200 + space_bg.width*6 - 100, y: -1, image: background }),
-  new GenericObject({ x: 4200 + space_bg.width*6 - 100, y: -1, image: hills }),
+  new GenericObject({ x: 4200 + space_bg.width * 6 - 100, y: -1, image: background }),
+  new GenericObject({ x: 4200 + space_bg.width * 6 - 100, y: -1, image: hills }),
   new GenericObject({ x: 4200, y: -1, image: space_bg }),
-  new GenericObject({ x: 4200 + space_bg.width -2, y: -1, image: space_bg }),
-  new GenericObject({ x: 4200 + space_bg.width*2 -4, y: -1, image: space_bg }),
-  new GenericObject({ x: 4200 + space_bg.width*3 -6, y: -1, image: space_bg }),
-  new GenericObject({ x: 4200 + space_bg.width*4 -8, y: -1, image: space_bg }),
-  new GenericObject({ x: 4200 + space_bg.width*5-10, y: -1, image: space_bg }),
-  new GenericObject({ x: 4200, y: space_bg.height-2, image: space_bg }),
-  new GenericObject({ x: 4200 + space_bg.width -2, y:space_bg.height-2, image: space_bg }),
-  new GenericObject({ x: 4200 + space_bg.width*2 -4, y: space_bg.height-2, image: space_bg }),
-  new GenericObject({ x: 4200 + space_bg.width*3 -6, y: space_bg.height-2, image: space_bg }),
-  new GenericObject({ x: 4200 + space_bg.width*4 -8, y: space_bg.height-2, image: space_bg }),
-  new GenericObject({ x: 4200 + space_bg.width*5-10, y: space_bg.height-2, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width - 2, y: -1, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width * 2 - 4, y: -1, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width * 3 - 6, y: -1, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width * 4 - 8, y: -1, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width * 5 - 10, y: -1, image: space_bg }),
+  new GenericObject({ x: 4200, y: space_bg.height - 2, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width - 2, y: space_bg.height - 2, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width * 2 - 4, y: space_bg.height - 2, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width * 3 - 6, y: space_bg.height - 2, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width * 4 - 8, y: space_bg.height - 2, image: space_bg }),
+  new GenericObject({ x: 4200 + space_bg.width * 5 - 10, y: space_bg.height - 2, image: space_bg }),
   new GenericObject({ x: -10, y: 50, image: orange_logo }),
   new GenericObject({ x: 11500, y: 0, image: winner })
 ];
@@ -366,33 +378,33 @@ function animate() {
   ctx.fillText("Score: " + score, 950, 30);
   ctx.fillText("High Score: " + high_score, 916, 50);
   ctx.fillText("Level: " + level, 950, 70);
-  if(started && !ended) {
+  if (started && !ended) {
     var t = Date.now();
-    var tt = Math.abs(Date.now() - start_time)/1000;
-    ctx.fillText("Time: " + tt, 926, 90);  
+    var tt = Math.abs(Date.now() - start_time) / 1000;
+    ctx.fillText("Time: " + tt, 926, 90);
   }
-  if(ended) {
+  if (ended) {
     var t = Date.now();
-    var tt = Math.abs(end_time - start_time)/1000;
-    ctx.fillText("Time: " + tt, 926, 90);  
+    var tt = Math.abs(end_time - start_time) / 1000;
+    ctx.fillText("Time: " + tt, 926, 90);
   }
 
-  if(score == 0) {
+  if (score == 0) {
     ctx.fillText("Dont Touch The Monsters.", 850, 350);
-    ctx.fillText("Dont Touch The Lava.", 850, 370);  
-    ctx.fillText("Press D to start.", 850, 390);  
+    ctx.fillText("Dont Touch The Lava.", 850, 370);
+    ctx.fillText("Press D to start.", 850, 390);
   }
-  if(score > 840 && score < 860) {
+  if (score > 840 && score < 860) {
     ctx.fillText("Dont Touch The Monsters.", 850, 330);
     ctx.fillText("Press W to move up.", 850, 350);
     ctx.fillText("Press S to move down.", 850, 370);
-    ctx.fillText("Press D to start.", 850, 390);  
+    ctx.fillText("Press D to start.", 850, 390);
   }
-  if(score > 1710 && score < 1730) {
+  if (score > 1710 && score < 1730) {
     ctx.fillText("Dont Touch The Monsters.", 850, 330);
     ctx.fillText("Press W to move up.", 850, 350);
     ctx.fillText("Press S to move down.", 850, 370);
-    ctx.fillText("Press D to start.", 850, 390);  
+    ctx.fillText("Press D to start.", 850, 390);
   }
 
   var gs = [-0.2, -0.4, 0.2, 0.4];
@@ -421,8 +433,8 @@ function animate() {
   })
 
   enemies.forEach((e) => {
-    if (p.position.x + p.width  > e.position.x && p.position.y + p.height > e.position.y && p.position.y < e.position.y + e.height && p.position.x < e.position.x + e.width) {
-      
+    if (p.position.x + p.width > e.position.x && p.position.y + p.height > e.position.y && p.position.y < e.position.y + e.height && p.position.x < e.position.x + e.width) {
+
     }
   })
 
@@ -488,30 +500,30 @@ function animate() {
     if (e.position.y <= -1) {
       enemy_gravity = 1;
       e.position.y = 0;
-    }  
+    }
   })
   if (p.position.y + p.height >= canvas.height) {
-    if (won && reported==false) {
-      reported=true
-      window.location.href = '/leaderboard/anon/' + Math.abs(start_time - end_time)/1000;
+    if (won && reported == false) {
+      reported = true
+      post_my_win();
     }
     else {
       init();
     }
   }
 
-  if (score == Math.round(SPD*121.42857)  && level2monst == false) {
+  if (score == Math.round(SPD * 121.42857) && level2monst == false) {
     level2monst = true;
     score += 1;
     level = 2;
     console.log("Level 2")
     for (let i = 10; i < 65; i += 7) {
       random_m = obstacle_m_options[Math.floor(Math.random() * obstacle_m_options.length)];
-      enemies.push(new Enemy({ x: i * 100, y: 5*i, image: random_m }))
+      enemies.push(new Enemy({ x: i * 100, y: 5 * i, image: random_m }))
     }
   }
 
-  if (score == Math.round(SPD*245.71428)  && level3monst == false) {
+  if (score == Math.round(SPD * 245.71428) && level3monst == false) {
     level3monst = true;
     score += 1;
     level = 3;
@@ -525,11 +537,11 @@ function animate() {
   }
 
   if (score == 2500) {
-    if(ended == false) {
+    if (ended == false) {
       ended = true;
       end_time = Date.now();
       console.log("END TIME: ", end_time);
-      let seconds = Math.abs(start_time - end_time)/1000;
+      let seconds = Math.abs(start_time - end_time) / 1000;
       console.log("SECONDS: ", seconds);
     }
     p.velocity.x = 0
@@ -557,17 +569,17 @@ function animate() {
 animate();
 
 document.addEventListener('keydown', ({ keyCode }) => {
-  if(started == false) {
+  if (started == false) {
     started = true;
     start_time = Date.now();
     console.log("START TIME: ", start_time);
   };
-switch (keyCode) {
+  switch (keyCode) {
     case 65:
       keys.left.pressed = true;
       break;
     case 83:
-      if(level == 2) {
+      if (level == 2) {
         if (won == false) p.velocity.y = +5;
       }
       break;
@@ -588,7 +600,7 @@ document.addEventListener('keyup', ({ keyCode }) => {
       keys.left.pressed = false;
       break;
     case 83:
-      if(level == 2) {
+      if (level == 2) {
         if (won == false) p.velocity.y = 0;
       }
       break;

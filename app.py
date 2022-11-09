@@ -1,5 +1,5 @@
 import flask
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS, cross_origin
 app = Flask(__name__)
 import time
@@ -18,13 +18,19 @@ collection = db["customers"]
 def hello():
     return flask.render_template("index.html")
 
-@app.route("/leaderboard/<name>/<score>")
+@app.route("/leaderboard/", methods=["GET", "POST"])
 @cross_origin()
-def leaderboard(name, score):
-    new_score = {"Name" : name, "Score" : score}
-    collection.insert_one(new_score)
+def leaderboard():
     cursor = collection.find({})
     all = []
     for document in cursor:
         all.append(document)
-    return flask.render_template("leaderboard.html", p_name=name, p_score=score, all=all)
+    if request.method == 'POST':
+        name = request.json['name']
+        score = request.json['score']
+        new_score = {"Name" : name, "Score" : score}
+        collection.insert_one(new_score)
+        print("POSTED NEW ENTRY")
+        return flask.render_template("leaderboard.html", all=all)
+    if(request.method == 'GET'):
+        return flask.render_template("leaderboard.html", all=all)

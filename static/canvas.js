@@ -180,6 +180,7 @@ class Obstacle {
 }
 
 async function post_my_win() {
+  console.log("ABRA")
   const response = await fetch('https://gamejam-gsu.herokuapp.com/leaderboard', {
     headers: {
       'Content-Type': 'application/json',
@@ -190,6 +191,7 @@ async function post_my_win() {
       "score": Math.abs(start_time - end_time) / 1000
     }),
   })
+  console.log("CADABRA");
   window.location.href = '/leaderboard/';
 }
 
@@ -221,14 +223,11 @@ function init() {
     new Platform({ x: fire.width * 11 - 210, y: 400, image: purple }),
     new Platform({ x: fire.width * 12 - 230, y: 400, image: water }),
     new Platform({ x: fire.width * 13 - 260, y: 400, image: grass }),
-    new Platform({ x: fire.width * 15 - 320, y: 400, image: grass }),
+    new Platform({ x: fire.width * 15 - 290, y: 400, image: grass }),
     new Platform({ x: fire.width * 17 - 380, y: 400, image: grass }),
     new Platform({ x: fire.width * 18 - 410, y: 400, image: water }),
     new Platform({ x: fire.width * 14 - 260, y: 200, image: purple }),
-    new Platform({ x: fire.width * 15 - 271, y: 200, image: purple }),
-    new Platform({ x: fire.width * 16 - 350, y: 200, image: purple }),
-    new Platform({ x: fire.width * 17 - 380, y: 200, image: purple }),
-  ]
+    ]
 
   obstacles = []
   obstacle_x_options.forEach((x) => {
@@ -288,7 +287,6 @@ let platforms = [
   new Platform({ x: fire.width * 17 - 380, y: 400, image: grass }),
   new Platform({ x: fire.width * 18 - 410, y: 400, image: water }),
   new Platform({ x: fire.width * 14 - 260, y: 200, image: purple }),
-  new Platform({ x: fire.width * 16 - 350, y: 200, image: purple }),
 ]
 
 let obstacles = []
@@ -502,10 +500,13 @@ function animate() {
       e.position.y = 0;
     }
   })
+
   if (p.position.y + p.height >= canvas.height) {
-    if (won && reported == false) {
-      reported = true
-      post_my_win();
+    if (won == true ) {
+      if(reported == false) {
+        reported = true
+        post_my_win();  
+      }
     }
     else {
       init();

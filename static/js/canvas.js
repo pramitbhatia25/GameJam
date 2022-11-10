@@ -41,6 +41,10 @@ const fly1 = newImage("players/frame-1", "png");
 const fly2 = newImage("players/frame-2", "png");
 const up = newImage("players/up", "png");
 const down = newImage("players/down", "png");
+const flip_fly1 = newImage("players/flip_frame-1", "png");
+const flip_fly2 = newImage("players/flip_frame-2", "png");
+const flip_up = newImage("players/flip_up", "png");
+const flip_down = newImage("players/flip_down", "png");
 
 const SPD = 7;
 const canvas = document.querySelector('canvas')
@@ -77,17 +81,37 @@ class Player {
   draw() {
     if (level == 2) {
       if (keys.top.pressed) {
-        ctx.drawImage(up, this.position.x, this.position.y, 80, 60);
+        if(keys.left.pressed) {
+          ctx.drawImage(flip_up, this.position.x, this.position.y, 80, 60);
+        }
+        else {
+          ctx.drawImage(up, this.position.x, this.position.y, 80, 60);
+        }
       }
       else {
-        ctx.drawImage(down, this.position.x, this.position.y, 80, 60);
+        if(keys.left.pressed) {
+          ctx.drawImage(flip_down, this.position.x, this.position.y, 80, 60);
+        }
+        else {
+          ctx.drawImage(down, this.position.x, this.position.y, 80, 60);
+        }
       }
     }
     else if (keys.top.pressed) {
-      ctx.drawImage(fly1, this.position.x, this.position.y, 80, 60);
-    }
+      if(keys.left.pressed) {
+        ctx.drawImage(flip_fly1, this.position.x, this.position.y, 80, 60);
+      }
+      else {
+        ctx.drawImage(fly1, this.position.x, this.position.y, 80, 60);
+      }
+  }
     else {
-      ctx.drawImage(fly2, this.position.x, this.position.y, 80, 60);
+      if(keys.left.pressed) {
+        ctx.drawImage(flip_fly2, this.position.x, this.position.y, 80, 60);
+      }
+      else {
+        ctx.drawImage(fly2, this.position.x, this.position.y, 80, 60);
+      }
     }
   }
 

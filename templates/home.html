@@ -1,29 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <canvas></canvas>
-    <div id="img" src=""></div>
-    <script
-    type="module"
-    src={{ url_for('static', filename='js/home.js') }}
-    crossorigin="anonymous"
-></script>    
+    <input>HELLO</input>
+    <script type="module" src={{ url_for('static', filename='js/home.js' ) }} crossorigin="anonymous"></script>
     <style>
-        body {
-          align-items: center;
-          display: flex;
-          justify-content: center;
-          height: 100vh;
-          background-color: black;
-        margin: 0;
+        input {
+            color: white;
+            height: 50px;
+            background-color: lightblue;
+            border: 1px solid black;
+            border-radius: 20px;
+            position: absolute;
+            top:80%;
+            width: 20%;
         }
-
+        body {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+            background-color: black;
+            margin: 0;
+        }
     </style>
 </body>
+
 </html>

@@ -394,10 +394,10 @@ function animate() {
   })
 
   ctx.fillStyle = "white";
-  ctx.font = '15px serif';
-  ctx.fillText("Score: " + score, 950, 30);
-  ctx.fillText("High Score: " + high_score, 916, 50);
-  ctx.fillText("Level: " + level, 950, 70);
+  ctx.font = '17px serif';
+  ctx.fillText("Score: " + score, 940, 30);
+  ctx.fillText("High Score: " + high_score, 902, 50);
+  ctx.fillText("Level: " + level, 940, 70);
   if (started && !ended) {
     var t = Date.now();
     var tt = Math.abs(Date.now() - start_time) / 1000;
@@ -410,15 +410,18 @@ function animate() {
   }
 
   if (score == 0) {
-    ctx.fillText("Dont Touch The Monsters.", 850, 350);
-    ctx.fillText("Dont Touch The Lava.", 850, 370);
-    ctx.fillText("Press D to start.", 850, 390);
+    ctx.fillText("Dont Touch The Monsters.", 630, 310);
+    ctx.fillText("Dont Touch The Lava.", 630, 330);
+    ctx.fillText("Press → to start.", 630, 350);
+    ctx.fillText("Press ↑ to jump.", 630, 370);
+    ctx.fillText("Press ← to go back.", 630, 390);
   }
   if (score > 840 && score < 860) {
-    ctx.fillText("Dont Touch The Monsters.", 850, 330);
-    ctx.fillText("Press W to move up.", 850, 350);
-    ctx.fillText("Press S to move down.", 850, 370);
-    ctx.fillText("Press D to start.", 850, 390);
+    ctx.fillText("Dont Touch The Monsters.", 650, 310);
+    ctx.fillText("Press ↑ to move up.", 650, 330);
+    ctx.fillText("Press ↓ to move down.", 650, 350);
+    ctx.fillText("Press → to start.", 650, 370);
+    ctx.fillText("Press ← to go back.", 650, 390);
   }
   if (score > 1710 && score < 1730) {
     ctx.fillText("Dont Touch The Monsters.", 850, 330);
@@ -535,6 +538,7 @@ function animate() {
   }
 
   if (score == Math.round(SPD * 121.42857) && level2monst == false) {
+    keys.right.pressed=false;
     level2monst = true;
     score += 1;
     level = 2;
@@ -546,6 +550,7 @@ function animate() {
   }
 
   if (score == Math.round(SPD * 245.71428) && level3monst == false) {
+    keys.right.pressed=false;
     level3monst = true;
     score += 1;
     level = 3;

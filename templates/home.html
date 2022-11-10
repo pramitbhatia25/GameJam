@@ -10,13 +10,16 @@
 
 <body>
     <canvas></canvas>
-    <input id="input"></input>
+    <input id="input" placeholder="Enter Your Name"></input>
     <script type="module" src={{ url_for('static', filename='js/home.js' ) }} crossorigin="anonymous"></script>
     <style>
         input {
-            color: white;
+            text-align: center;
+            font-size: large;
+            font-weight: 900;
+            color: black;
             height: 50px;
-            background-color: lightblue;
+            background-color: rgb(256, 256, 256, 0.8);
             border: 1px solid black;
             border-radius: 20px;
             position: absolute;

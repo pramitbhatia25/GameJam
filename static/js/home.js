@@ -201,7 +201,7 @@ async function post_my_win_local(name) {
         break;
       case 13:
         if(document.getElementById("input").value.length != 0) {
-          post_my_win_local(document.getElementById("input").value);
+          post_my_win(document.getElementById("input").value);
         } 
         break;   
       }

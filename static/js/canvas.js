@@ -597,41 +597,51 @@ document.addEventListener('keydown', ({ keyCode }) => {
     console.log("START TIME: ", start_time);
   };
   switch (keyCode) {
-    case 65:
+    case 37:
       keys.left.pressed = true;
+      keys.right.pressed = false;
       break;
-    case 83:
+    case 40:
       if (level == 2) {
         if (won == false) p.velocity.y = +5;
       }
       break;
-    case 68:
+    case 39:
       keys.right.pressed = true;
       break
-    case 87:
+    case 32:
       keys.top.pressed = true;
       if (won == false && level == 2) p.velocity.y = -5;
       if (won == false && level != 2) p.velocity.y = -10;
       break;
-  }
+    case 38:
+      keys.top.pressed = true;
+      if (won == false && level == 2) p.velocity.y = -5;
+      if (won == false && level != 2) p.velocity.y = -10;
+      break;
+    }
 })
 
 document.addEventListener('keyup', ({ keyCode }) => {
   switch (keyCode) {
-    case 65:
+    case 37:
       keys.left.pressed = false;
+      keys.right.pressed = true;
       break;
-    case 83:
+    case 40:
       if (level == 2) {
         if (won == false) p.velocity.y = 0;
       }
       break;
-    case 68:
-      keys.right.pressed = false;
+    case 39:
       break
-    case 87:
+    case 32:
       keys.top.pressed = false;
       if (won == false) p.velocity.y = 0;
       break;
-  }
+    case 38:
+      keys.top.pressed = false;
+      if (won == false) p.velocity.y = 0;
+      break;
+    }
 })

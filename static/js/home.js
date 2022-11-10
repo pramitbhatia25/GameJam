@@ -6,7 +6,7 @@ function newImage(name, ext) {
 
   const forest = newImage("background_images/forest", "jpg");    
   const orange_logo = newImage("text/orange_logo", "png");
-  const water = newImage("platforms/water", "png");
+  const water = newImage("platforms/fire", "png");
   const fly1 = newImage("players/frame-1", "png");
   const fly2 = newImage("players/frame-2", "png");
   const flip_fly1 = newImage("players/flip_frame-1", "png");
@@ -104,11 +104,14 @@ function newImage(name, ext) {
   async function post_my_win(name) {
     window.location.href = 'http://gamejam-gsu.herokuapp.com/' + name;
 }
-  
+async function post_my_win_local(name) {
+  window.location.href = 'http://127.0.0.1:5000/' + name;
+}
+
   let p = new Player({ x: 100, y: 100 });
   
   let platforms = [
-    new Platform({ x: 0, y: 400, image: water }),
+    new Platform({ x: -10, y: 400, image: water }),
   ]
   
   let genericObjects = [
@@ -127,7 +130,7 @@ function newImage(name, ext) {
       pressed: false,
     }
   }
-  
+  var reloaded = false;
   function animate() {
     requestAnimationFrame(animate);
     ctx.fillStyle = 'white';
@@ -166,45 +169,61 @@ function newImage(name, ext) {
     if(p.position.x < 0) {
         p.position.x = 0;
     }
-    if(p.position.y == 0) {
-      post_my_win("TEST");
+
+    if(p.position.y > 400 && !reloaded) {
+      reloaded = true;
+      location.reload();
     }
   p.update();
 
 }
   
   animate();
-  
+
+
   document.addEventListener('keydown', ({ keyCode }) => {
     switch (keyCode) {
-      case 65:
+      case 37:
         keys.left.pressed = true;
         break;
       case 83:
         break;
-      case 68:
+      case 39:
         keys.right.pressed = true;
         break
-      case 87:
+      case 32:
         keys.top.pressed = true;
         p.velocity.y = -10;
         break;
-    }
+      case 38:
+        keys.top.pressed = true;
+        p.velocity.y = -10;
+        break;
+      case 13:
+        if(document.getElementById("input").value.length != 0) {
+          post_my_win_local(document.getElementById("input").value);
+        } 
+        break;   
+      }
   })
   
   document.addEventListener('keyup', ({ keyCode }) => {
     switch (keyCode) {
-      case 65:
+      case 37:
         keys.left.pressed = false;
         break;
       case 83:
         break;
-      case 68:
+      case 39:
         keys.right.pressed = false;
         break
-      case 87:
+      case 32:
         keys.top.pressed = false;
         p.velocity.y = 0;
         break;
-    }
+      case 38:
+        keys.top.pressed = false;
+        p.velocity.y = 0;
+        break;
+      }
   })

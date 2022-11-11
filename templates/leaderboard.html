@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,18 +10,166 @@
 <body>
 	<div class="container">
 		<div class="leaderboard">
-			<div class="body">
-				<ol>
-                    {% for i in range(all | length):%}
-					<li>
-						<mark>Name: {{all[i]["Name"]}}</mark>
-						<small>Score: {{all[i]["Score"]}}</small>
-					</li>
-                    {%endfor%}
-				</ol>
-			</div>
+			<ol>
+				{% for i in range(all | length):%}
+				<li class="item">
+					<p>Name: {{all[i]["Name"]}}</p>
+					<p>Score: {{all[i]["Score"]}}</p>
+				</li>
+				{%endfor%}
+			</ol>
 		</div>
 	</div>
 
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Leaderboard UI Design</title>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href={{ url_for('static',filename='style.css') }}>
+</head>
+<body>
+	<section class="main-content">
+		<div class="container">
+			<h1>SpookyBird Leaderboard</h1>
+			<br>
+			<br>
+
+			{%if ((all | length) >= 3):%}
+			<div class="row">
+				{% for i in range(3):%}
+				<div class="col-sm-4">
+					<div class="leaderboard-card">
+						<div class="leaderboard-card__top">
+							<h3 class="text-center">{{all[i]['Score']}}s</h3>
+						</div>
+						<div class="leaderboard-card__body">
+							<div class="text-center">
+								<h5 class="mb-0">{{all[i]["Name"]}}</h5>
+								<p class="text-muted mb-0">@{{all[i]["Name"]}}</p>
+								<hr>
+								<div class="d-flex justify-content-between align-items-center">
+									<span><i class="fa fa-map-marker"></i> United States</span>
+									<button class="btn btn-outline-success btn-sm">{{i+1}}</button>
+									<button class="btn btn-outline-success btn-sm">Congratulate</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{%endfor%}
+			</div>
+			<h4>All Users</h4>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Player</th>
+						<th>Time</th>
+						<th>Rank</th>
+						<th>Likes</th>
+						<th>Congratulate</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for i in range((all | length)):%}					
+					<tr>
+						<td>
+							<div class="d-flex align-items-center">
+								<div class="user-info__basic">
+									<h5 class="mb-0">{{all[i]['Name']}}</h5>
+									<p class="text-muted mb-0">@{{all[i]['Name']}}</p>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="d-flex align-items-baseline">
+								<h4 class="mr-1">{{all[i]['Score']}}s</h4><small class="text-success"></small>
+							</div>
+						</td>
+						<td>{{i+1}}</td>
+						<td>Likes?</td>
+						<td>
+							<button class="btn btn-success btn-sm">Congratulate</button>
+						</td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+			{%endif%}
+			{%if ((all | length) < 3):%}
+			<div class="row">
+				{% for i in range(all | length):%}
+				<div class="col-sm-4">
+					<div class="leaderboard-card">
+						<div class="leaderboard-card__top">
+							<h3 class="text-center">{{all[i]['Score']}}s</h3>
+						</div>
+						<div class="leaderboard-card__body">
+							<div class="text-center">
+								<h5 class="mb-0">{{all[i]["Name"]}}</h5>
+								<p class="text-muted mb-0">@{{all[i]["Name"]}}</p>
+								<hr>
+								<div class="d-flex justify-content-between align-items-center">
+									<span><i class="fa fa-map-marker"></i> United States</span>
+									<button class="btn btn-outline-success btn-sm">{{i+1}}</button>
+									<button class="btn btn-outline-success btn-sm">Congratulate</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{%endfor%}
+			</div>
+			<h4>All Users</h4>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Player</th>
+						<th>Time</th>
+						<th>Rank</th>
+						<th>Likes</th>
+						<th>Congratulate</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for i in range((all | length)):%}					
+					<tr>
+						<td>
+							<div class="d-flex align-items-center">
+								<div class="user-info__basic">
+									<h5 class="mb-0">{{all[i]['Name']}}</h5>
+									<p class="text-muted mb-0">@{{all[i]['Name']}}</p>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="d-flex align-items-baseline">
+								<h4 class="mr-1">{{all[i]['Score']}}s</h4><small class="text-success"></small>
+							</div>
+						</td>
+						<td>{{i+1}}</td>
+						<td>Likes?</td>
+						<td>
+							<button class="btn btn-success btn-sm">Congratulate</button>
+						</td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+
+			{%endif%}
+
+
+		</div>
+	</section>
+	
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -631,7 +631,7 @@ document.addEventListener('keyup', ({ keyCode }) => {
   switch (keyCode) {
     case 37:
       keys.left.pressed = false;
-      keys.right.pressed = true;
+      keys.right.pressed = false;
       break;
     case 40:
       if (level == 2) {

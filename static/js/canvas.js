@@ -48,8 +48,8 @@ const flip_down = newImage("players/flip_down", "png");
 
 const SPD = 7;
 const canvas = document.querySelector('canvas')
-canvas.width = 1024;
-canvas.height = 520;
+canvas.width = window.innerWidth * 0.8;
+canvas.height = window.innerWidth * 0.8 * 520 / 1024;
 var ctx = canvas.getContext("2d");
 
 canvas.contentEditable = true;
@@ -592,14 +592,6 @@ function animate() {
           break;
       }
     });
-    document.removeEventListener('touchstart', ({ keyCode }) => {
-      switch (keyCode) {
-        default:
-          keys.right.pressed = false;
-          keys.left.pressed = false;
-          break;
-      }
-    });
     document.removeEventListener('keyup', ({ keyCode }) => {
       switch (keyCode) {
         default:
@@ -670,11 +662,6 @@ document.addEventListener('keyup', ({ keyCode }) => {
 })
 
 document.addEventListener('touchstart', (t) => {
-  if (started == false) {
-    started = true;
-    start_time = Date.now();
-    console.log("START TIME: ", start_time);
-  };
   if(keys.right.pressed == false) {
     keys.right.pressed = true;
   }

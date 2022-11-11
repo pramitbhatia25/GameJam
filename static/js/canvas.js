@@ -80,6 +80,7 @@ class Player {
 
   draw() {
     if (level == 2) {
+      console.log("SSSS@2");
       if (keys.top.pressed) {
         if(keys.left.pressed) {
           ctx.drawImage(flip_up, this.position.x, this.position.y, 80, 60);
@@ -223,76 +224,6 @@ async function post_my_win() {
   window.location.href = '/leaderboard/';
 }
 
-function init() {
-  gravity = 0.5;
-  enemy_gravity = 0.5;
-  keys.right.pressed = false;
-  enemies = [];
-  player_speed = SPD;
-  level = 1;
-  if (score > high_score) {
-    high_score = score;
-  }
-  score = 0;
-  p = new Player({ x: 100, y: 100 });
-
-  platforms = [
-    new Platform({ x: 0, y: 400, image: water }),
-    new Platform({ x: water.width - 5, y: 400, image: fire }),
-    new Platform({ x: fire.width * 2 - 30, y: 400, image: fire }),
-    new Platform({ x: fire.width * 3 - 50, y: 400, image: fire }),
-    new Platform({ x: fire.width * 4 - 70, y: 400, image: fire }),
-    new Platform({ x: fire.width * 5 - 90, y: 400, image: fire }),
-    new Platform({ x: fire.width * 6 - 110, y: 400, image: water }),
-    new Platform({ x: fire.width * 7 - 130, y: 400, image: purple }),
-    new Platform({ x: fire.width * 8 - 150, y: 400, image: purple }),
-    new Platform({ x: fire.width * 9 - 170, y: 400, image: purple }),
-    new Platform({ x: fire.width * 10 - 190, y: 400, image: purple }),
-    new Platform({ x: fire.width * 11 - 210, y: 400, image: purple }),
-    new Platform({ x: fire.width * 12 - 230, y: 400, image: water }),
-    new Platform({ x: fire.width * 13 - 260, y: 400, image: grass }),
-    new Platform({ x: fire.width * 15 - 290, y: 400, image: grass }),
-    new Platform({ x: fire.width * 17 - 380, y: 400, image: grass }),
-    new Platform({ x: fire.width * 18 - 410, y: 400, image: water }),
-    new Platform({ x: fire.width * 14 - 260, y: 200, image: purple }),
-    ]
-
-  obstacles = []
-  obstacle_x_options.forEach((x) => {
-    var random_o = obstacle_orientation_options[Math.floor(Math.random() * obstacle_orientation_options.length)];
-    if (random_o == "up") {
-      var random_m = obstacle_m_options[Math.floor(Math.random() * obstacle_m_options.length)];
-    }
-    else {
-      var random_m = obstacle_mr_options[Math.floor(Math.random() * obstacle_mr_options.length)];
-    }
-
-    obstacles.push(new Obstacle({ x: x, y: random_o == "up" ? 250 : -150, image: random_m, orientation: random_o }))
-  })
-
-
-  genericObjects = [
-    new GenericObject({ x: -1000, y: -1, image: forest }),
-    new GenericObject({ x: 4200 + space_bg.width * 6 - 100, y: -1, image: background }),
-    new GenericObject({ x: 4200 + space_bg.width * 6 - 100, y: -1, image: hills }),
-    new GenericObject({ x: 4200, y: -1, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width - 2, y: -1, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width * 2 - 4, y: -1, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width * 3 - 6, y: -1, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width * 4 - 8, y: -1, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width * 5 - 10, y: -1, image: space_bg }),
-    new GenericObject({ x: 4200, y: space_bg.height - 2, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width - 2, y: space_bg.height - 2, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width * 2 - 4, y: space_bg.height - 2, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width * 3 - 6, y: space_bg.height - 2, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width * 4 - 8, y: space_bg.height - 2, image: space_bg }),
-    new GenericObject({ x: 4200 + space_bg.width * 5 - 10, y: space_bg.height - 2, image: space_bg }),
-    new GenericObject({ x: -10, y: 50, image: orange_logo }),
-    new GenericObject({ x: 11500, y: 0, image: winner })
-  ];
-
-  scrollOfset = 0
-}
 
 let p = new Player({ x: 100, y: 100 });
 
@@ -375,6 +306,79 @@ let keys = {
   }
 }
 var reported = false
+function init() {
+  level2monst = false;
+  level3monst = false;
+  gravity = 0.5;
+  enemy_gravity = 0.5;
+  keys.right.pressed = false;
+  enemies = [];
+  player_speed = SPD;
+  level = 1;
+  if (score > high_score) {
+    high_score = score;
+  }
+  score = 0;
+  p = new Player({ x: 100, y: 100 });
+
+  platforms = [
+    new Platform({ x: 0, y: 400, image: water }),
+    new Platform({ x: water.width - 5, y: 400, image: fire }),
+    new Platform({ x: fire.width * 2 - 30, y: 400, image: fire }),
+    new Platform({ x: fire.width * 3 - 50, y: 400, image: fire }),
+    new Platform({ x: fire.width * 4 - 70, y: 400, image: fire }),
+    new Platform({ x: fire.width * 5 - 90, y: 400, image: fire }),
+    new Platform({ x: fire.width * 6 - 110, y: 400, image: water }),
+    new Platform({ x: fire.width * 7 - 130, y: 400, image: purple }),
+    new Platform({ x: fire.width * 8 - 150, y: 400, image: purple }),
+    new Platform({ x: fire.width * 9 - 170, y: 400, image: purple }),
+    new Platform({ x: fire.width * 10 - 190, y: 400, image: purple }),
+    new Platform({ x: fire.width * 11 - 210, y: 400, image: purple }),
+    new Platform({ x: fire.width * 12 - 230, y: 400, image: water }),
+    new Platform({ x: fire.width * 13 - 260, y: 400, image: grass }),
+    new Platform({ x: fire.width * 15 - 290, y: 400, image: grass }),
+    new Platform({ x: fire.width * 17 - 380, y: 400, image: grass }),
+    new Platform({ x: fire.width * 18 - 410, y: 400, image: water }),
+    new Platform({ x: fire.width * 14 - 260, y: 200, image: purple }),
+    ]
+
+  obstacles = []
+  obstacle_x_options.forEach((x) => {
+    var random_o = obstacle_orientation_options[Math.floor(Math.random() * obstacle_orientation_options.length)];
+    if (random_o == "up") {
+      var random_m = obstacle_m_options[Math.floor(Math.random() * obstacle_m_options.length)];
+    }
+    else {
+      var random_m = obstacle_mr_options[Math.floor(Math.random() * obstacle_mr_options.length)];
+    }
+
+    obstacles.push(new Obstacle({ x: x, y: random_o == "up" ? 250 : -150, image: random_m, orientation: random_o }))
+  })
+
+
+  genericObjects = [
+    new GenericObject({ x: -1000, y: -1, image: forest }),
+    new GenericObject({ x: 4200 + space_bg.width * 6 - 100, y: -1, image: background }),
+    new GenericObject({ x: 4200 + space_bg.width * 6 - 100, y: -1, image: hills }),
+    new GenericObject({ x: 4200, y: -1, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width - 2, y: -1, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width * 2 - 4, y: -1, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width * 3 - 6, y: -1, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width * 4 - 8, y: -1, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width * 5 - 10, y: -1, image: space_bg }),
+    new GenericObject({ x: 4200, y: space_bg.height - 2, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width - 2, y: space_bg.height - 2, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width * 2 - 4, y: space_bg.height - 2, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width * 3 - 6, y: space_bg.height - 2, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width * 4 - 8, y: space_bg.height - 2, image: space_bg }),
+    new GenericObject({ x: 4200 + space_bg.width * 5 - 10, y: space_bg.height - 2, image: space_bg }),
+    new GenericObject({ x: -10, y: 50, image: orange_logo }),
+    new GenericObject({ x: 11500, y: 0, image: winner })
+  ];
+
+  scrollOfset = 0
+
+}
 
 function animate() {
   requestAnimationFrame(animate);
@@ -464,7 +468,7 @@ function animate() {
 
   enemies.forEach((e) => {
     if (p.position.x + p.width > e.position.x && p.position.y + p.height > e.position.y && p.position.y < e.position.y + e.height && p.position.x < e.position.x + e.width) {
-
+      init();
     }
   })
 
@@ -544,10 +548,8 @@ function animate() {
     }
   }
 
-  if(score == 50) {
-  }
-
-  if (score == Math.round(SPD * 121.42857) && level2monst == false) {
+  console.log("A" + level2monst )
+  if (score == 850 && level2monst == false) {
     keys.right.pressed=false;
     level2monst = true;
     score += 1;

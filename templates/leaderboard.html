@@ -27,10 +27,9 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Leaderboard UI Design</title>
+	<title>Leaderboard</title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href={{ url_for('static',filename='style.css') }}>
 </head>
 <body>
@@ -54,9 +53,16 @@
 								<p class="text-muted mb-0">@{{all[i]["Name"]}}</p>
 								<hr>
 								<div class="d-flex justify-content-between align-items-center">
-									<span><i class="fa fa-map-marker"></i> United States</span>
-									<button class="btn btn-outline-success btn-sm">{{i+1}}</button>
-									<button class="btn btn-outline-success btn-sm">Congratulate</button>
+									{%if(i == 0):%}
+									<span><i class="fa fa-medal"></i> Rank: {{i+1}}</span>
+									{%endif%}
+									{%if(i == 1):%}
+									<span><i class="fa fa-medal"></i> Rank: {{i+1}}</span>
+									{%endif%}
+									{%if(i == 2):%}
+									<span><i class="fa fa-medal"></i> Rank: {{i+1}}</span>
+									{%endif%}
+									<span><i class="fa fa-clock"></i> {{all[i]['Date']}}</span>
 								</div>
 							</div>
 						</div>
@@ -71,8 +77,7 @@
 						<th>Player</th>
 						<th>Time</th>
 						<th>Rank</th>
-						<th>Likes</th>
-						<th>Congratulate</th>
+						<th>Date</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -92,9 +97,8 @@
 							</div>
 						</td>
 						<td>{{i+1}}</td>
-						<td>Likes?</td>
 						<td>
-							<button class="btn btn-success btn-sm">Congratulate</button>
+							{{all[i]['Date']}}
 						</td>
 					</tr>
 					{%endfor%}
@@ -115,9 +119,16 @@
 								<p class="text-muted mb-0">@{{all[i]["Name"]}}</p>
 								<hr>
 								<div class="d-flex justify-content-between align-items-center">
-									<span><i class="fa fa-map-marker"></i> United States</span>
-									<button class="btn btn-outline-success btn-sm">{{i+1}}</button>
-									<button class="btn btn-outline-success btn-sm">Congratulate</button>
+									{%if(i == 0):%}
+									<span><i class="fa fa-medal"></i> Rank: {{i+1}}</span>
+									{%endif%}
+									{%if(i == 1):%}
+									<span><i class="fa fa-medal"></i> Rank: {{i+1}}</span>
+									{%endif%}
+									{%if(i == 2):%}
+									<span><i class="fa fa-medal"></i> Rank: {{i+1}}</span>
+									{%endif%}
+									<span><i class="fa fa-clock"></i> {{all[i]['Date']}}</span>
 								</div>
 							</div>
 						</div>
@@ -132,8 +143,7 @@
 						<th>Player</th>
 						<th>Time</th>
 						<th>Rank</th>
-						<th>Likes</th>
-						<th>Congratulate</th>
+						<th>Date</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -153,9 +163,8 @@
 							</div>
 						</td>
 						<td>{{i+1}}</td>
-						<td>Likes?</td>
 						<td>
-							<button class="btn btn-success btn-sm">Congratulate</button>
+							{{all[i]['Date']}}
 						</td>
 					</tr>
 					{%endfor%}
@@ -168,6 +177,7 @@
 		</div>
 	</section>
 	
+	<script src="https://kit.fontawesome.com/e0d5630947.js" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

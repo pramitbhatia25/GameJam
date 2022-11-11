@@ -33,11 +33,13 @@ def leaderboard():
     if request.method == 'POST':
         name = request.json['name']
         score = request.json['score']
-        new_score = {"Name" : name, "Score" : score}
+        date = request.json['date']
+        new_score = {"Name" : name, "Score" : score, 'Date': date}
         collection.insert_one(new_score)
         print("POSTED NEW ENTRY")
-        all = sorted(all, key=lambda i: (i['Score'], i['Name']))
+        all = sorted(all, key=lambda i: (i['Score'], i['Date'], i['Name']))
+        # all = [{'Name': "pr", 'Score': "23"},]
         return flask.render_template("leaderboard.html", all=all)
     if(request.method == 'GET'):
-        all = sorted(all, key=lambda i: (i['Score'], i['Name']))
+        all = sorted(all, key=lambda i: (i['Score'], i['Date'], i['Name']))
         return flask.render_template("leaderboard.html", all=all)

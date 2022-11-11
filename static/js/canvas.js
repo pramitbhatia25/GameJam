@@ -204,14 +204,20 @@ class Obstacle {
 }
 
 async function post_my_win() {
-  const response = await fetch('https://gamejam-gsu.herokuapp.com/leaderboard/', {
+  const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const d = new Date(end_time);
+  let name_month = month[d.getMonth()];    
+  let year = d.getFullYear();
+  let date = d.getDate();
+  const response = await fetch('http://gamejam-gsu.herokuapp.com/leaderboard/', {
     headers: {
       'Content-Type': 'application/json',
     },
     method: 'POST',
     body: JSON.stringify({
       "name": namee,
-      "score": Math.abs(start_time - end_time) / 1000
+      "score": Math.abs(start_time - end_time) / 1000,
+      "date": name_month + " " + date + " " + year,
     }),
   })
   window.location.href = '/leaderboard/';
@@ -372,6 +378,7 @@ var reported = false
 
 function animate() {
   requestAnimationFrame(animate);
+
   ctx.fillStyle = 'white';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -535,6 +542,9 @@ function animate() {
     else {
       init();
     }
+  }
+
+  if(score == 50) {
   }
 
   if (score == Math.round(SPD * 121.42857) && level2monst == false) {

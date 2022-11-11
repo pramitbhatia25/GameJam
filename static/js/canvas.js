@@ -592,6 +592,14 @@ function animate() {
           break;
       }
     });
+    document.removeEventListener('touchstart', ({ keyCode }) => {
+      switch (keyCode) {
+        default:
+          keys.right.pressed = false;
+          keys.left.pressed = false;
+          break;
+      }
+    });
     document.removeEventListener('keyup', ({ keyCode }) => {
       switch (keyCode) {
         default:
@@ -660,3 +668,31 @@ document.addEventListener('keyup', ({ keyCode }) => {
       break;
     }
 })
+
+document.addEventListener('touchstart', (t) => {
+  if (started == false) {
+    started = true;
+    start_time = Date.now();
+    console.log("START TIME: ", start_time);
+  };
+  if(keys.right.pressed == false) {
+    keys.right.pressed = true;
+  }
+  else {
+    if(level != 2) {
+      p.velocity.y -= 15;
+    }
+    else {
+      if(t.touches[0].clientY < canvas.height/2) {
+        p.velocity.y -=10;
+      }
+      if(t.touches[0].clientY >= canvas.height/2) {
+        p.velocity.y += 10;
+      }
+    }
+  }
+}, true);
+
+document.addEventListener('touchend', () => {
+    p.velocity.y = 0;
+}, true);

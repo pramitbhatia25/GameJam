@@ -48,8 +48,8 @@ const flip_down = newImage("players/flip_down", "png");
 
 const SPD = 7;
 const canvas = document.querySelector('canvas')
-canvas.width = window.innerWidth * 0.8;
-canvas.height = window.innerWidth * 0.8 * 520 / 1024;
+canvas.width = 1024;
+canvas.height = 520;
 var ctx = canvas.getContext("2d");
 
 canvas.contentEditable = true;

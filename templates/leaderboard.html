@@ -62,6 +62,7 @@
 									{%if(i == 2):%}
 									<span><i class="fa fa-medal"></i> Rank: {{i+1}}</span>
 									{%endif%}
+									<span><i class="fa fa-egg"></i> Deaths: {{all[i]['Deaths']}}</span>
 									<span><i class="fa fa-clock"></i> {{all[i]['Date']}}</span>
 								</div>
 							</div>
@@ -76,6 +77,7 @@
 					<tr>
 						<th>Player</th>
 						<th>Time</th>
+						<th>Deaths</th>
 						<th>Rank</th>
 						<th>Date</th>
 					</tr>
@@ -96,6 +98,7 @@
 								<h4 class="mr-1">{{all[i]['Score']}}s</h4><small class="text-success"></small>
 							</div>
 						</td>
+						<td>{{all[i]['Deaths']}}</td>
 						<td>{{i+1}}</td>
 						<td>
 							{{all[i]['Date']}}
@@ -128,6 +131,7 @@
 									{%if(i == 2):%}
 									<span><i class="fa fa-medal"></i> Rank: {{i+1}}</span>
 									{%endif%}
+									<span><i class="fa fa-egg"></i> Deaths: {{all[i]['Deaths']}}</span>
 									<span><i class="fa fa-clock"></i> {{all[i]['Date']}}</span>
 								</div>
 							</div>
@@ -142,6 +146,7 @@
 					<tr>
 						<th>Player</th>
 						<th>Time</th>
+						<th>Deaths</th>
 						<th>Rank</th>
 						<th>Date</th>
 					</tr>
@@ -162,6 +167,7 @@
 								<h4 class="mr-1">{{all[i]['Score']}}s</h4><small class="text-success"></small>
 							</div>
 						</td>
+						<td>{{all[i]['Deaths']}}</td>
 						<td>{{i+1}}</td>
 						<td>
 							{{all[i]['Date']}}

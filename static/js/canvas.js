@@ -8,7 +8,7 @@ var started = false;
 var start_time;
 var end_time;
 var ended = false;
-
+var deaths = 0
 
 bangersFont.load().then(function (loadedFont) {
   document.fonts.add(loadedFont)
@@ -210,7 +210,7 @@ async function post_my_win() {
   let name_month = month[d.getMonth()];    
   let year = d.getFullYear();
   let date = d.getDate();
-  const response = await fetch('http://gamejam-gsu.herokuapp.com/leaderboard/', {
+  const response = await fetch('http://127.0.0.1:5000/leaderboard/', {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -219,6 +219,7 @@ async function post_my_win() {
       "name": namee,
       "score": Math.abs(start_time - end_time) / 1000,
       "date": name_month + " " + date + " " + year,
+      "deaths": deaths,
     }),
   })
   window.location.href = '/leaderboard/';
@@ -307,6 +308,9 @@ let keys = {
 }
 var reported = false
 function init() {
+  if(started) {
+    deaths += 1;
+  }
   level2monst = false;
   level3monst = false;
   gravity = 0.5;
@@ -409,15 +413,16 @@ function animate() {
   ctx.fillText("Score: " + score, 940, 30);
   ctx.fillText("High Score: " + high_score, 902, 50);
   ctx.fillText("Level: " + level, 940, 70);
+  ctx.fillText("Deaths: " + deaths, 940, 90);
   if (started && !ended) {
     var t = Date.now();
     var tt = Math.abs(Date.now() - start_time) / 1000;
-    ctx.fillText("Time: " + tt, 926, 90);
+    ctx.fillText("Time: " + tt, 926, 110);
   }
   if (ended) {
     var t = Date.now();
     var tt = Math.abs(end_time - start_time) / 1000;
-    ctx.fillText("Time: " + tt, 926, 90);
+    ctx.fillText("Time: " + tt, 926, 130);
   }
 
   if (score == 0) {
@@ -664,6 +669,11 @@ document.addEventListener('keyup', ({ keyCode }) => {
 })
 
 document.addEventListener('touchstart', (t) => {
+  if (started == false) {
+    started = true;
+    start_time = Date.now();
+    console.log("START TIME: ", start_time);
+  };
   if(keys.right.pressed == false) {
     keys.right.pressed = true;
   }

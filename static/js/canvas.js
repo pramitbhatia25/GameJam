@@ -210,7 +210,7 @@ async function post_my_win() {
   let name_month = month[d.getMonth()];    
   let year = d.getFullYear();
   let date = d.getDate();
-  const response = await fetch('http://127.0.0.1:5000/leaderboard/', {
+  const response = await fetch('https://gamejam-gsu.herokuapp.com/leaderboard/', {
     headers: {
       'Content-Type': 'application/json',
     },

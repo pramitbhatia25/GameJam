@@ -5,7 +5,7 @@ import time
 from flask_pymongo import PyMongo
 import pymongo
 import urllib
-from PIL import Image
+# from PIL import Image
 import requests
 # import os
 # import openai

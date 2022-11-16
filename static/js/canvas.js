@@ -45,6 +45,7 @@ const flip_fly1 = newImage("players/flip_frame-1", "png");
 const flip_fly2 = newImage("players/flip_frame-2", "png");
 const flip_up = newImage("players/flip_up", "png");
 const flip_down = newImage("players/flip_down", "png");
+const test = newImage("players/test", "png");
 
 const SPD = 7;
 const canvas = document.querySelector('canvas')
@@ -80,9 +81,8 @@ class Player {
 
   draw() {
     if (level == 2) {
-      console.log("SSSS@2");
       if (keys.top.pressed) {
-        if(keys.left.pressed) {
+        if (keys.left.pressed) {
           ctx.drawImage(flip_up, this.position.x, this.position.y, 80, 60);
         }
         else {
@@ -90,7 +90,7 @@ class Player {
         }
       }
       else {
-        if(keys.left.pressed) {
+        if (keys.left.pressed) {
           ctx.drawImage(flip_down, this.position.x, this.position.y, 80, 60);
         }
         else {
@@ -98,16 +98,17 @@ class Player {
         }
       }
     }
+        // ctx.drawImage(test, this.position.x, this.position.y, 80, 60);    
     else if (keys.top.pressed) {
-      if(keys.left.pressed) {
+      if (keys.left.pressed) {
         ctx.drawImage(flip_fly1, this.position.x, this.position.y, 80, 60);
       }
       else {
         ctx.drawImage(fly1, this.position.x, this.position.y, 80, 60);
       }
-  }
+    }
     else {
-      if(keys.left.pressed) {
+      if (keys.left.pressed) {
         ctx.drawImage(flip_fly2, this.position.x, this.position.y, 80, 60);
       }
       else {
@@ -205,9 +206,9 @@ class Obstacle {
 }
 
 async function post_my_win() {
-  const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const d = new Date(end_time);
-  let name_month = month[d.getMonth()];    
+  let name_month = month[d.getMonth()];
   let year = d.getFullYear();
   let date = d.getDate();
   const response = await fetch('https://gamejam-gsu.herokuapp.com/leaderboard/', {
@@ -308,7 +309,7 @@ let keys = {
 }
 var reported = false
 function init() {
-  if(started) {
+  if (started) {
     deaths += 1;
   }
   level2monst = false;
@@ -344,7 +345,7 @@ function init() {
     new Platform({ x: fire.width * 17 - 380, y: 400, image: grass }),
     new Platform({ x: fire.width * 18 - 410, y: 400, image: water }),
     new Platform({ x: fire.width * 14 - 260, y: 200, image: purple }),
-    ]
+  ]
 
   obstacles = []
   obstacle_x_options.forEach((x) => {
@@ -543,9 +544,9 @@ function animate() {
   })
   if (p.position.y + p.height >= canvas.height) {
     if (won) {
-      if(!reported) {
+      if (!reported) {
         reported = true
-        post_my_win();  
+        post_my_win();
       }
     }
     else {
@@ -553,9 +554,9 @@ function animate() {
     }
   }
 
-  console.log("A" + level2monst )
+  console.log("A" + level2monst)
   if (score == 850 && level2monst == false) {
-    keys.right.pressed=false;
+    keys.right.pressed = false;
     level2monst = true;
     score += 1;
     level = 2;
@@ -567,7 +568,7 @@ function animate() {
   }
 
   if (score == Math.round(SPD * 245.71428) && level3monst == false) {
-    keys.right.pressed=false;
+    keys.right.pressed = false;
     level3monst = true;
     score += 1;
     level = 3;
@@ -641,7 +642,7 @@ document.addEventListener('keydown', ({ keyCode }) => {
       if (won == false && level == 2) p.velocity.y = -5;
       if (won == false && level != 2) p.velocity.y = -10;
       break;
-    }
+  }
 })
 
 document.addEventListener('keyup', ({ keyCode }) => {
@@ -665,7 +666,7 @@ document.addEventListener('keyup', ({ keyCode }) => {
       keys.top.pressed = false;
       if (won == false) p.velocity.y = 0;
       break;
-    }
+  }
 })
 
 document.addEventListener('touchstart', (t) => {
@@ -674,18 +675,18 @@ document.addEventListener('touchstart', (t) => {
     start_time = Date.now();
     console.log("START TIME: ", start_time);
   };
-  if(keys.right.pressed == false) {
+  if (keys.right.pressed == false) {
     keys.right.pressed = true;
   }
   else {
-    if(level != 2) {
+    if (level != 2) {
       p.velocity.y -= 15;
     }
     else {
-      if(t.touches[0].clientY < canvas.height/2) {
-        p.velocity.y -=10;
+      if (t.touches[0].clientY < canvas.height / 2) {
+        p.velocity.y -= 10;
       }
-      if(t.touches[0].clientY >= canvas.height/2) {
+      if (t.touches[0].clientY >= canvas.height / 2) {
         p.velocity.y += 10;
       }
     }
@@ -693,5 +694,5 @@ document.addEventListener('touchstart', (t) => {
 }, true);
 
 document.addEventListener('touchend', () => {
-    p.velocity.y = 0;
+  p.velocity.y = 0;
 }, true);

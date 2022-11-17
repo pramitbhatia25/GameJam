@@ -98,23 +98,23 @@ class Player {
         }
       }
     }
-        // ctx.drawImage(test, this.position.x, this.position.y, 80, 60);    
-    else if (keys.top.pressed) {
-      if (keys.left.pressed) {
-        ctx.drawImage(flip_fly1, this.position.x, this.position.y, 80, 60);
-      }
-      else {
-        ctx.drawImage(fly1, this.position.x, this.position.y, 80, 60);
-      }
-    }
-    else {
-      if (keys.left.pressed) {
-        ctx.drawImage(flip_fly2, this.position.x, this.position.y, 80, 60);
-      }
-      else {
-        ctx.drawImage(fly2, this.position.x, this.position.y, 80, 60);
-      }
-    }
+        ctx.drawImage(test, this.position.x, this.position.y, 80, 60);    
+    // else if (keys.top.pressed) {
+    //   if (keys.left.pressed) {
+    //     ctx.drawImage(flip_fly1, this.position.x, this.position.y, 80, 60);
+    //   }
+    //   else {
+    //     ctx.drawImage(fly1, this.position.x, this.position.y, 80, 60);
+    //   }
+    // }
+    // else {
+    //   if (keys.left.pressed) {
+    //     ctx.drawImage(flip_fly2, this.position.x, this.position.y, 80, 60);
+    //   }
+    //   else {
+    //     ctx.drawImage(fly2, this.position.x, this.position.y, 80, 60);
+    //   }
+    // }
   }
 
   update() {

@@ -13,7 +13,7 @@ import openai
 db_key = os.getenv("DB_KEY")
 
 app = Flask(__name__)
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# openai.api_key = os.getenv("OPENAI_API_KEY")
 
 client = pymongo.MongoClient("mongodb+srv://pramit25:" + urllib.parse.quote(db_key) + "@cluster0.nyi9mlm.mongodb.net/?retryWrites=true&w=majority")
 db = client["Cluster0"]
@@ -24,9 +24,9 @@ collection = db["customers"]
 @app.route("/<name>", methods=['GET'])
 @cross_origin()
 def hello(name):
-    response = requests.get("http://gamejam-gsu.herokuapp.com/image_generation", headers={'prompt': name})
-    im = Image.open(requests.get(response.content, stream=True).raw)    
-    im.save("./static/players/test.png")
+    # response = requests.get("http://gamejam-gsu.herokuapp.com/image_generation", headers={'prompt': name})
+    # im = Image.open(requests.get(response.content, stream=True).raw)    
+    # im.save("./static/players/test.png")
     return flask.render_template("index.html", name=name)
 
 # @app.route("/image_generation", methods=("GET", "POST"))

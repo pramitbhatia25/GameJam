@@ -7,13 +7,15 @@ import pymongo
 import urllib
 # from PIL import Image
 import requests
-# import os
+import os
 # import openai
+
+db_key = os.getenv("DB_KEY")
 
 app = Flask(__name__)
 # openai.api_key = os.getenv("OPENAI_API_KEY")
 
-client = pymongo.MongoClient("mongodb+srv://pramit25:" + urllib.parse.quote("Pram@197058") + "@cluster0.nyi9mlm.mongodb.net/?retryWrites=true&w=majority")
+client = pymongo.MongoClient("mongodb+srv://pramit25:" + urllib.parse.quote(db_key) + "@cluster0.nyi9mlm.mongodb.net/?retryWrites=true&w=majority")
 db = client["Cluster0"]
 
 collection = db["customers"]

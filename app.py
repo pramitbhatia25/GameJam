@@ -24,7 +24,7 @@ collection = db["customers"]
 @app.route("/<name>", methods=['GET'])
 @cross_origin()
 def hello(name):
-    response = requests.get("http://127.0.0.1:5000/image_generation", headers={'prompt': name})
+    response = requests.get("http://gamejam-gsu.herokuapp.com/image_generation", headers={'prompt': name})
     im = Image.open(requests.get(response.content, stream=True).raw)    
     im.save("./static/players/test.png")
     return flask.render_template("index.html", name=name)

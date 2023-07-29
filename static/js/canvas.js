@@ -211,7 +211,7 @@ async function post_my_win() {
   let name_month = month[d.getMonth()];
   let year = d.getFullYear();
   let date = d.getDate();
-  const response = await fetch('https://gamejam-gsu.herokuapp.com/leaderboard/', {
+  const response = await fetch('https://gamejamwinner.onrender.com/leaderboard/', {
     headers: {
       'Content-Type': 'application/json',
     },

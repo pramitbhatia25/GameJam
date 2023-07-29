@@ -102,7 +102,7 @@ class GenericObject {
 
 
 async function post_my_win(name) {
-  window.location.href = 'http://gamejam-gsu.herokuapp.com/' + name;
+  window.location.href = 'https://gamejamwinner.onrender.com/' + name;
 }
 async function post_my_win_local(name) {
   window.location.href = 'http://127.0.0.1:5000/' + name;
